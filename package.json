@@ -11,7 +11,6 @@
   },
   "devDependencies": {
     "@element-plus/icons-vue": "^2.1.0",
-    "@element-plus/nuxt": "^1.0.4",
     "@nuxtjs/device": "^3.1.0",
     "@nuxtjs/eslint-config-typescript": "^12.0.0",
     "@nuxtjs/eslint-module": "^4.0.2",
@@ -24,6 +23,7 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.4.8",
+    "axios": "^1.3.5",
     "pinia": "^2.0.34"
   }
 }
