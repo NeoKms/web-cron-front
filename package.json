@@ -10,6 +10,7 @@
     "eslint-fix": "eslint --fix"
   },
   "devDependencies": {
+    "@element-plus/icons-vue": "^2.1.0",
     "@element-plus/nuxt": "^1.0.4",
     "@nuxtjs/device": "^3.1.0",
     "@nuxtjs/eslint-config-typescript": "^12.0.0",
@@ -18,7 +19,8 @@
     "@nuxtjs/tailwindcss": "^6.6.6",
     "@types/node": "^18",
     "eslint": "^8.38.0",
-    "nuxt": "^3.4.1"
+    "nuxt": "^3.4.1",
+    "sass": "^1.62.0"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.4.8",

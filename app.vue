@@ -1,5 +1,5 @@
 <template>
   <div>
-      <AppAlert />
+    <AppAlert />
   </div>
 </template>
