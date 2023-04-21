@@ -1,7 +1,7 @@
+import config from '~/config/config'
 
 export const errRequestHandler = (err: any): boolean|string => {
-  const runtimeConfig = useRuntimeConfig()
-  if (!runtimeConfig.public.PRODUCTION) {
+  if (!config.PRODUCTION) {
     console.error(err)
   }
   if (Object.prototype.hasOwnProperty.call(err, 'response') && err.response) {

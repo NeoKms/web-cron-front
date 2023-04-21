@@ -27,8 +27,3 @@ export interface ResultWithMessage<T> {
     result: T;
     error?: string;
 }
-
-export interface ConfigInterface {
-    API_HOST: string;
-    PRODUCTION: boolean;
-}

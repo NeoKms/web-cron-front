@@ -1,5 +1,4 @@
 import { NuxtConfig } from '@nuxt/schema'
-import { ConfigInterface } from '~/interfaces'
 
 const config: NuxtConfig = {
   app: {
@@ -13,23 +12,21 @@ const config: NuxtConfig = {
   modules: [
     '@nuxtjs/eslint-module',
     '@pinia/nuxt',
+    '@nuxtjs/tailwindcss',
     '@nuxtjs/i18n',
-    '@nuxtjs/device',
-    '@element-plus/nuxt'
+    '@nuxtjs/device'
   ],
   eslint: {},
   i18n: {
     vueI18n: './plugins/i18n/i18n.config.ts'
   },
-  elementPlus: {
-    icon: 'ElIcon',
-    importStyle: 'scss'
-  },
-  runtimeConfig: {
-    public: {
-      API_HOST: process.env.API_HOST,
-      PRODUCTION: false
-    } as ConfigInterface
+  tailwindcss: {
+    cssPath: './assets/css/tailwind.css',
+    configPath: './tailwind.config.js',
+    exposeConfig: false,
+    exposeLevel: 2,
+    injectPosition: 'first',
+    viewer: true
   }
 }
 if (process.env.NODE_ENV === 'development') {
