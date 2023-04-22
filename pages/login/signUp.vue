@@ -41,7 +41,7 @@
             <div class="col-span-full">
               <label for="photo" class="block text-sm font-medium leading-6 text-gray-900">Photo</label>
               <div class="mt-2 flex items-center gap-x-3">
-                <SvgIcon type="mdi" :path="mdiAccount" class="h-12 w-12 text-gray-300" aria-hidden="true" />
+                <common-my-svg-icon type="mdi" :path="mdiAccount" class="h-12 w-12 text-gray-300" aria-hidden="true" />
                 <button type="button" class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
                   Change
                 </button>
@@ -52,7 +52,7 @@
               <label for="cover-photo" class="block text-sm font-medium leading-6 text-gray-900">Cover photo</label>
               <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                 <div class="text-center">
-                  <SvgIcon type="mdi" :path="mdiAccount" class="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
+                  <common-my-svg-icon type="mdi" :path="mdiAccount" class="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
                   <div class="mt-4 flex text-sm leading-6 text-gray-600">
                     <label for="file-upload" class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
                       <span>Upload a file</span>
@@ -218,7 +218,7 @@
       </div>
 
       <div class="mt-6 flex items-center justify-end gap-x-6">
-        <button type="button" class="text-sm font-semibold leading-6 text-gray-900">
+        <button type="button" class="text-sm font-semibold leading-6 text-gray-900" @click="$router.push('/login')">
           Cancel
         </button>
         <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
@@ -230,14 +230,12 @@
 </template>
 
 <script lang="ts" setup>
-import SvgIcon from '@jamescoyle/vue-icon'
-import { mdiAccount } from '@mdi/js'
-
-import { definePageMeta } from '#imports'
+import { mdiAccount } from '@mdi/js';
+import { definePageMeta } from '#imports';
 
 definePageMeta({
   layout: 'login'
-})
+});
 </script>
 
 <style scoped>

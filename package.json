@@ -1,6 +1,10 @@
 {
-  "name": "nuxt-app",
-  "private": true,
+  "name": "webCron",
+  "version": "0.0.1",
+  "author": "Zhigulskiy Vladislav",
+  "license": "MIT",
+  "description": "frontend for web-cron-api",
+  "private": false,
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",

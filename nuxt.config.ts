@@ -1,4 +1,4 @@
-import { NuxtConfig } from '@nuxt/schema'
+import { NuxtConfig } from '@nuxt/schema';
 
 const config: NuxtConfig = {
   app: {
@@ -15,7 +15,9 @@ const config: NuxtConfig = {
     '@nuxtjs/tailwindcss',
     '@nuxtjs/i18n',
     '@nuxtjs/device'
+    // '@nuxtjs/axios'
   ],
+  // axios: {},
   eslint: {},
   i18n: {
     vueI18n: './plugins/i18n/i18n.config.ts'
@@ -28,13 +30,13 @@ const config: NuxtConfig = {
     injectPosition: 'first',
     viewer: true
   }
-}
+};
 if (process.env.NODE_ENV === 'development') {
   config.devServer = {
     port: 82,
     host: 'vlad.dev.lan'
-  }
+  };
 }
 
 // @ts-ignore
-export default defineNuxtConfig(config)
+export default defineNuxtConfig(config);
