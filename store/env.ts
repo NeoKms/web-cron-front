@@ -4,7 +4,8 @@ import { EnvConfig } from '~/interfaces';
 export const useEnvStore = defineStore('envStore', () => {
   const env = ref<EnvConfig>({
     API_HOST: '',
-    PRODUCTION: false
+    PRODUCTION: false,
+    AUTH_COOKIE_NAME: 'connect.sid'
   });
   const nuxtServerInit = (): void => {
     Object.keys(env.value).forEach((key) => {

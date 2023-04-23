@@ -1,23 +1,19 @@
 import { useAuthStore } from '~/store/auth';
 
-export default defineNuxtRouteMiddleware(async (to) => {
-  // if (to.fullPath === from.fullPath) { return true; }
+export default defineNuxtRouteMiddleware(async (to, from) => {
   const authStore = useAuthStore();
   if (to.fullPath === '/login/signIn' && authStore.isFailed === true) {
     return true;
   }
+  console.info('middleware', from.fullPath, '=>', to.fullPath);
   await authStore.checkAuth();
   if (to.fullPath.includes('/login')) {
     if (authStore.user !== null) {
-      return '/';
+      return navigateTo('/');
     } else if (to.fullPath === '/login' || to.fullPath === '/login/') {
-      return '/login/signIn';
-    } else {
-      return true;
+      return navigateTo('/login/signIn');
     }
+  } else if (authStore.user === null) {
+    return navigateTo('/login/signIn');
   }
-  if (authStore.user === null) {
-    return '/login/signIn';
-  }
-  return true;
 });

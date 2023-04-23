@@ -14,8 +14,8 @@ const config: NuxtConfig = {
     '@pinia/nuxt',
     '@nuxtjs/tailwindcss',
     '@nuxtjs/i18n',
-    '@nuxtjs/device'
-    // '@nuxtjs/axios'
+    '@nuxtjs/device',
+    '@pinia/nuxt'
   ],
   // axios: {},
   eslint: {},

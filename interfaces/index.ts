@@ -7,4 +7,5 @@ export interface ResultWithMessage<T> {
 export interface EnvConfig {
     API_HOST: string;
     PRODUCTION: boolean;
+    AUTH_COOKIE_NAME: string;
 }
