@@ -5,7 +5,8 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   if (to.fullPath === '/login/signIn' && authStore.isFailed === true) {
     return true;
   }
-  console.info('middleware', from.fullPath, '=>', to.fullPath);
+  const config = useRuntimeConfig().public;
+  !config.PRODUCTION && console.info('middleware', from.fullPath, '=>', to.fullPath);
   await authStore.checkAuth();
   if (to.fullPath.includes('/login')) {
     if (authStore.user !== null) {

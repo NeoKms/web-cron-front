@@ -1,17 +1,16 @@
 import { NitroFetchOptions } from 'nitropack';
 import { ResultWithMessage } from '~/interfaces';
 import { errRequestHandler } from '~/helpers/errorResponser';
-import { useEnvStore } from '~/store/env';
 
 export default <T>(uri: string, options: NitroFetchOptions<any>, onSuccess: (v: T) => void, onFail?: () => void) => {
-  const envStore = useEnvStore();
-  const authc = useCookie(envStore.env.AUTH_COOKIE_NAME);
+  const config = useRuntimeConfig().public;
+  const authc = useCookie(config.AUTH_COOKIE_NAME);
   if (authc.value) {
     !options?.headers && (options.headers = {});
     // @ts-ignore
-    options.headers.cookie = envStore.env.AUTH_COOKIE_NAME + '=' + authc.value;
+    options.headers.cookie = config.AUTH_COOKIE_NAME + '=' + authc.value;
   }
-  return $fetch<unknown>(`${envStore.env.API_HOST}${uri}`,
+  return $fetch<unknown>(`${config.API_HOST}${uri}`,
     Object.assign(options, {
       credentials: 'include'
     }))
@@ -27,6 +26,6 @@ export default <T>(uri: string, options: NitroFetchOptions<any>, onSuccess: (v: 
     })
     .catch((err) => {
       !!onFail && onFail();
-      return errRequestHandler(err);
+      return errRequestHandler(err, config);
     });
 };

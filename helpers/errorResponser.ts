@@ -1,8 +1,7 @@
-import { useEnvStore } from '~/store/env';
+import { EnvConfig } from '~/interfaces';
 
-export const errRequestHandler = (err: any): boolean|string => {
-  const envStore = useEnvStore();
-  if (!envStore.env.PRODUCTION) {
+export const errRequestHandler = (err: any, config: EnvConfig): boolean|string => {
+  if (!config.PRODUCTION) {
     console.error(err.message);
   }
   if (Object.prototype.hasOwnProperty.call(err, 'response') && err.response) {

@@ -2,9 +2,9 @@ import { defineStore } from 'pinia';
 import { LoginDto } from '~/interfaces/apiTypes/auth/dto/login.dto';
 import { ResponseUserDto } from '~/interfaces/apiTypes/user/dto/response-user.dto';
 import apiClient from '~/helpers/apiClient';
-import { useEnvStore } from '~/store/env';
 
 export const useAuthStore = defineStore('authStore', () => {
+  const config = useRuntimeConfig().public;
   const user = ref<ResponseUserDto|null>(null);
   const isFailed = ref(false);
   const checkAuth = (): Promise<boolean|string> => {
@@ -27,12 +27,11 @@ export const useAuthStore = defineStore('authStore', () => {
       method: 'POST'
     },
     (result) => {
-      const envStore = useEnvStore();
       user.value = result;
-      const auth = document.cookie.split(';').find(e => e.includes(envStore.env.AUTH_COOKIE_NAME));
+      const auth = document.cookie.split(';').find(e => e.includes(config.AUTH_COOKIE_NAME));
       if (auth) {
         const splitted = auth.split('=');
-        const authc = useCookie(envStore.env.AUTH_COOKIE_NAME, {
+        const authc = useCookie(config.AUTH_COOKIE_NAME, {
           maxAge: 0
         });
         authc.value = splitted[1];

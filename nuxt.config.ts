@@ -1,4 +1,5 @@
 import { NuxtConfig } from '@nuxt/schema';
+import { EnvConfig } from '~/interfaces';
 
 const config: NuxtConfig = {
   app: {
@@ -17,7 +18,13 @@ const config: NuxtConfig = {
     '@nuxtjs/device',
     '@pinia/nuxt'
   ],
-  // axios: {},
+  runtimeConfig: {
+    public: {
+      API_HOST: process.env.API_HOST,
+      AUTH_COOKIE_NAME: process.env.AUTH_COOKIE_NAME,
+      PRODUCTION: process.env.PRODUCTION ?? false
+    } as EnvConfig
+  },
   eslint: {},
   i18n: {
     vueI18n: './plugins/i18n/i18n.config.ts'
