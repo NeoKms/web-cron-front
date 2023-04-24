@@ -38,5 +38,15 @@ export const useAuthStore = defineStore('authStore', () => {
       }
     });
   };
-  return { checkAuth, user, login, isFailed };
+  const logout = () => {
+    return apiClient<never>('/auth/logout', {
+      method: 'GET'
+    }, () => {
+      const router = useRouter();
+      user.value = null;
+      isFailed.value = true;
+      router.push('/login/signIn');
+    });
+  };
+  return { checkAuth, user, login, isFailed, logout };
 });
