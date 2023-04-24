@@ -1,6 +1,12 @@
 import { NuxtConfig } from '@nuxt/schema';
 import { EnvConfig } from '~/interfaces';
 
+if (!process.env.API_HOST || !process.env.AUTH_COOKIE_NAME) {
+  throw new Error('need env');
+}
+if (process.env.API_HOST[process.env.API_HOST.length - 1] === '/') {
+  process.env.API_HOST = process.env.API_HOST.slice(0, process.env.API_HOST.length - 1);
+}
 const config: NuxtConfig = {
   app: {
     head: {
@@ -22,7 +28,7 @@ const config: NuxtConfig = {
     public: {
       API_HOST: process.env.API_HOST,
       AUTH_COOKIE_NAME: process.env.AUTH_COOKIE_NAME,
-      PRODUCTION: process.env.PRODUCTION ?? false
+      PRODUCTION: !!process.env.PRODUCTION ?? false
     } as EnvConfig
   },
   eslint: {},
