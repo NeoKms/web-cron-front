@@ -1,27 +1,30 @@
 <template>
-  <div class="min-h-full">
+  <div class="min-h-screen">
     <Disclosure v-slot="{ open }" as="nav" class="bg-gray-800">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="flex h-16 items-center justify-between">
+          <div class="-mr-2 flex md:hidden">
+            <!-- Mobile menu button -->
+            <DisclosureButton class="inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+              <span class="sr-only">Open main menu</span>
+              <common-my-svg-icon v-if="!open" :path="mdiMenu" class="block h-6 w-6" />
+              <common-my-svg-icon v-else :path="mdiClose" class="block h-6 w-6" />
+            </DisclosureButton>
+          </div>
           <div class="flex items-center">
             <div class="flex-shrink-0">
               <img class="h-8 w-8" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
             </div>
-            <div class="hidden md:block">
-              <div class="ml-10 flex items-baseline space-x-4">
-                <a v-for="item in navigation" :key="item.name" :href="item.href" :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'rounded-md px-3 py-2 text-sm font-medium']" :aria-current="item.current ? 'page' : undefined">{{ item.name }}</a>
-              </div>
+            <div class="text-white ml-2">
+              {{ currentRoute.name }}
             </div>
           </div>
           <div class="hidden md:block">
             <div class="ml-4 flex items-center md:ml-6">
               <button type="button" class="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                 <span class="sr-only">View notifications</span>
-                <div class="h-6 w-6" aria-hidden="true">
-                  BellIcon
-                </div>
+                <common-my-svg-icon class="h-6 w-6" :path="mdiBellOutline" />
               </button>
-
               <!-- Profile dropdown -->
               <Menu as="div" class="relative ml-3">
                 <div>
@@ -47,21 +50,8 @@
               </Menu>
             </div>
           </div>
-          <div class="-mr-2 flex md:hidden">
-            <!-- Mobile menu button -->
-            <DisclosureButton class="inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-              <span class="sr-only">Open main menu</span>
-              <div v-if="!open" class="block h-6 w-6" aria-hidden="true">
-                Bars3Icon
-              </div>
-              <div v-else class="block h-6 w-6" aria-hidden="true">
-                XMarkIcon
-              </div>
-            </DisclosureButton>
-          </div>
         </div>
       </div>
-
       <DisclosurePanel class="md:hidden">
         <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
           <DisclosureButton
@@ -82,7 +72,7 @@
             </div>
             <div class="ml-3">
               <div class="text-base font-medium leading-none text-white">
-                {{ user.name }}
+                {{ user.fio }}
               </div>
               <div class="text-sm font-medium leading-none text-gray-400">
                 {{ user.email }}
@@ -90,9 +80,7 @@
             </div>
             <button type="button" class="ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
               <span class="sr-only">View notifications</span>
-              <div class="h-6 w-6" aria-hidden="true">
-                bellicon
-              </div>
+              <common-my-svg-icon class="h-6 w-6" :path="mdiBellOutline" />
             </button>
           </div>
           <div class="mt-3 space-y-1 px-2">
@@ -103,48 +91,77 @@
         </div>
       </DisclosurePanel>
     </Disclosure>
-
-    <header class="bg-white shadow">
-      <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <h1 class="text-3xl font-bold tracking-tight text-gray-900">
-          Dashboard
-        </h1>
+    <div class="flex">
+      <div class="hidden md:block absolute sidebar w-[3.35rem] overflow-hidden border-r hover:w-[200px] hover:bg-white hover:shadow-lg">
+        <div class="flex h-full flex-col justify-between pb-6">
+          <div>
+            <ul class="space-y-2 tracking-wide">
+              <template v-for="item in navigation">
+                <li v-if="!item.skip" :key="item.name" class="min-w-max">
+                  <a :href="item.href" :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-500 hover:bg-gray-700 hover:text-white', 'space-x-4 relative items-center flex px-4 py-3 text-sm font-medium']" :aria-current="item.current ? 'page' : undefined">
+                    <common-my-svg-icon :path="item.icon" />
+                    <span class="-mr-1 font-medium">{{ item.name }}</span>
+                  </a>
+                </li>
+              </template>
+            </ul>
+          </div>
+          <div>
+            <ul class="space-y-2 tracking-wide">
+              <template v-for="item in navigation">
+                <li v-if="item.skip" :key="item.name" class="min-w-max">
+                  <a :href="item.href" :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-500 hover:bg-gray-700 hover:text-white', 'space-x-4 relative items-center flex px-4 py-3 text-sm font-medium']" :aria-current="item.current ? 'page' : undefined">
+                    <common-my-svg-icon :path="item.icon" />
+                    <span class="-mr-1 font-medium">{{ item.name }}</span>
+                  </a>
+                </li>
+              </template>
+            </ul>
+          </div>
+        </div>
       </div>
-    </header>
-    <main>
-      <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+      <main class="md:ml-[3.35rem] px-4 flex-1 mx-auto py-6 sm:px-6 lg:px-8 overflow-auto h-screen">
         <slot />
-      </div>
-    </main>
+      </main>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
-// import { useAuthStore } from '~/store/auth';
-
-// const authStore = useAuthStore();
-// const user = computed(() => authStore.user);
+import {
+  mdiAccount,
+  mdiBellOutline,
+  mdiCalendarCheck,
+  mdiClose,
+  mdiCog, mdiFormatListChecks,
+  mdiMenu,
+  mdiServerNetwork,
+  mdiViewDashboardVariant
+} from '@mdi/js';
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
-
-const user = {
-  name: 'Tom Cook',
-  email: 'tom@example.com',
-  imageUrl:
-    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
-};
-const navigation = [
-  { name: 'Dashboard', href: '#', current: true },
-  { name: 'Team', href: '#', current: false },
-  { name: 'Projects', href: '#', current: false },
-  { name: 'Calendar', href: '#', current: false },
-  { name: 'Reports', href: '#', current: false }
-];
+import { useAuthStore } from '~/store/auth';
+const authStore = useAuthStore();
+const user = computed(() => authStore.user);
+const navigation = ref([
+  { name: 'Dashboard', href: '/', current: true, icon: mdiViewDashboardVariant },
+  { name: 'Servers', href: '/ssh', current: false, icon: mdiServerNetwork },
+  { name: 'Jobs', href: '/jobs', current: false, icon: mdiCalendarCheck },
+  { name: 'Logs', href: '/logs', current: false, icon: mdiFormatListChecks },
+  { name: 'Users', href: '/users', current: false, icon: mdiAccount },
+  { name: 'Settings', href: '/settings', current: false, icon: mdiCog, skip: true }
+]);
+const currentRoute = computed(() => navigation.value.find(e => e.current));
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
-  { name: 'Settings', href: '#' },
   { name: 'Sign out', href: '#' }
 ];
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.sidebar {
+  transition:all .2s ease-in-out;
+  height: calc(100vh - 4rem);
+}
+main {
+  height: calc(100vh - 4rem);
+}
 </style>
