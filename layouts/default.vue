@@ -117,7 +117,7 @@
       <div class="z-10 hidden md:block absolute sidebar w-[3.35rem] overflow-hidden border-r hover:w-[200px] hover:bg-white hover:shadow-lg">
         <div class="flex h-full flex-col justify-between pb-6">
           <div>
-            <ul class="space-y-2 tracking-wide mt-2">
+            <ul class="space-y-2 tracking-wide">
               <template v-for="item in navigation">
                 <li v-if="!item.skip" :key="item.name" class="min-w-max">
                   <nuxt-link :to="item.href" :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-500 hover:bg-gray-700 hover:text-white', 'space-x-4 relative items-center flex px-4 py-3 text-sm font-medium']" :aria-current="item.current ? 'page' : undefined">
