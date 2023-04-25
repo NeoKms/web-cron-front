@@ -1,5 +1,3 @@
-import { mdiViewDashboardVariant } from '@mdi/js';
-
 export interface ResultWithMessage<T> {
   message: string;
   result: T;

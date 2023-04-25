@@ -20,7 +20,8 @@ const config: NuxtConfig = {
     }
   },
   css: [
-    '~/assets/css/scroll.scss'
+    '~/assets/css/scroll.scss',
+    'vue-toast-notification/dist/theme-sugar.css'
   ],
   modules: [
     '@nuxtjs/eslint-module',
