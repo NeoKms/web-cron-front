@@ -5,9 +5,9 @@ import apiClient from '~/helpers/apiClient';
 
 export const useAuthStore = defineStore('authStore', () => {
   const config = useRuntimeConfig().public;
-  const user = ref<ResponseUserDto|null>(null);
+  const user = ref<ResponseUserDto | null>(null);
   const isFailed = ref(false);
-  const checkAuth = (): Promise<boolean|string> => {
+  const checkAuth = (): Promise<boolean | string> => {
     return apiClient<ResponseUserDto>('/auth/checkLogin', {
       method: 'GET'
     },
@@ -48,5 +48,23 @@ export const useAuthStore = defineStore('authStore', () => {
       router.push('/login/signIn');
     });
   };
-  return { checkAuth, user, login, isFailed, logout };
+  const resetPassword = (email: string, redirect: null | string = null) => {
+    const params = new URLSearchParams();
+    params.append('email', email);
+    if (redirect) {
+      params.append('redirect', redirect);
+    }
+    return apiClient<never>('/auth/password/reset?' + params.toString(), {
+      method: 'GET'
+    },
+    () => true);
+  };
+  return {
+    checkAuth,
+    user,
+    login,
+    isFailed,
+    logout,
+    resetPassword
+  };
 });
