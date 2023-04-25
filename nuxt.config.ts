@@ -14,8 +14,14 @@ const config: NuxtConfig = {
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1'
     },
-    pageTransition: { name: 'page', mode: 'out-in' }
+    pageTransition: {
+      name: 'page',
+      mode: 'out-in'
+    }
   },
+  css: [
+    '~/assets/css/scroll.scss'
+  ],
   modules: [
     '@nuxtjs/eslint-module',
     '@pinia/nuxt',
