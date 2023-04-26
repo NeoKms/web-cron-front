@@ -23,3 +23,9 @@ export interface NavigationItem {
   icon: string;
   skip?: boolean;
 }
+
+export interface SimplePropValidatorInterface {
+  $errors: {
+    $message: string;
+  };
+}

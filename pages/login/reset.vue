@@ -10,17 +10,12 @@
       <div v-if="!success" class="space-y-6">
         <div>
           <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
-          <div class="mt-2">
-            <input
-              id="email"
-              v-model="email"
-              :disabled="loading"
-              name="email"
-              type="email"
-              autocomplete="email"
-              required=""
-              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            >
+          <div class="mt-2 flex-col items-center">
+            <common-input-with-validation
+              v-model="formData.email"
+              :loading="loading"
+              :prop-validator="v$.email"
+            />
           </div>
         </div>
         <div>
@@ -48,21 +43,39 @@
 </template>
 
 <script lang="ts" setup>
+import useVuelidate from '@vuelidate/core';
 import { definePageMeta } from '#imports';
 import { useAuthStore } from '~/store/auth';
 import { errVueHandler } from '~/helpers/errorResponser';
+import rulesModule from '~/helpers/rulesModule';
 
 definePageMeta({
   layout: 'login'
 });
 
-const loading = ref(false);
+const loading = ref<boolean>(false);
 const authStore = useAuthStore();
-const email = ref('');
-const success = ref(false);
+const success = ref<boolean>(false);
+const formData = reactive({
+  email: ''
+});
+const rules = {
+  email: {
+    required: rulesModule.required('The email field is required'),
+    email: rulesModule.email('Invalid email format Invalid email format Invalid email format Invalid email format')
+  }
+};
+const v$ = useVuelidate(rules, formData, {
+  $lazy: true,
+  $autoDirty: true
+});
 const sendReset = () => {
+  v$.value.$validate();
+  if (v$.value.$error) {
+    return;
+  }
   loading.value = true;
-  return authStore.resetPassword(email.value, document.location.origin + '/login/signIn')
+  return authStore.resetPassword(formData.email, document.location.origin + '/login/signIn')
     .then((res) => {
       if (errVueHandler(res)) {
         success.value = true;

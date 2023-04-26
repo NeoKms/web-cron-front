@@ -25,12 +25,15 @@
     "@tailwindcss/forms": "^0.5.3",
     "@types/node": "^18",
     "eslint": "^8.38.0",
+    "floating-vue": "^2.0.0-beta.20",
     "nuxt": "^3.4.1",
     "sass": "^1.62.0"
   },
   "dependencies": {
     "@headlessui/vue": "^1.7.13",
     "@pinia/nuxt": "^0.4.8",
+    "@vuelidate/core": "^2.0.2",
+    "@vuelidate/validators": "^2.0.2",
     "pinia": "^2.0.34",
     "vue-toast-notification": "^3.1.1"
   }

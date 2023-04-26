@@ -21,7 +21,8 @@ const config: NuxtConfig = {
   },
   css: [
     '~/assets/css/scroll.scss',
-    'vue-toast-notification/dist/theme-sugar.css'
+    'vue-toast-notification/dist/theme-sugar.css',
+    'floating-vue/dist/style.css'
   ],
   modules: [
     '@nuxtjs/eslint-module',
