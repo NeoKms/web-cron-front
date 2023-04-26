@@ -1,6 +1,9 @@
-import { email, helpers, required } from '@vuelidate/validators';
+import { email, helpers, maxLength, minLength, numeric, required } from '@vuelidate/validators';
 
 export default {
-  required: (text: string) => helpers.withMessage(text, required),
-  email: (text: string) => helpers.withMessage(text, email)
+  req: helpers.withMessage('Field is required', required),
+  email: helpers.withMessage('Invalid email format', email),
+  num: helpers.withMessage('Должно быть числом', numeric),
+  mil: (num: number) => helpers.withMessage(`Количество символов должно быть не меньше ${num}`, minLength(num)),
+  mal: (num: number) => helpers.withMessage(`Количество символов должно быть не больше ${num}`, maxLength(num))
 };

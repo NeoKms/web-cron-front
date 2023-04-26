@@ -29,10 +29,24 @@ export default {
   name: 'MySvgIcon',
 
   props: {
-    type: { type: String, required: false, default: types.default },
-    path: { type: String, required: true },
-    size: { type: [String, Number], default: 24 },
-    viewbox: { type: String, required: false, default: types.mdi.viewbox },
+    type: {
+      type: String,
+      required: false,
+      default: 'mdi'
+    },
+    path: {
+      type: String,
+      required: true
+    },
+    size: {
+      type: [String, Number],
+      default: 24
+    },
+    viewbox: {
+      type: String,
+      required: false,
+      default: types.mdi.viewbox
+    },
     flip: {
       type: String,
       required: false,
@@ -40,7 +54,10 @@ export default {
       validator: value =>
         ['horizontal', 'vertical', 'both', 'none'].includes(value)
     },
-    rotate: { type: Number, default: 0 }
+    rotate: {
+      type: Number,
+      default: 0
+    }
   },
 
   computed: {

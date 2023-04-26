@@ -15,19 +15,14 @@
               v-model="formData.email"
               :loading="loading"
               :prop-validator="v$.email"
+              name="email"
             />
           </div>
         </div>
         <div>
-          <button
-            :disabled="loading"
-            type="submit"
-            class="h-8 items-center flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            @click="sendReset"
-          >
-            <common-loading-circle v-if="loading" />
-            <span v-else>Reset</span>
-          </button>
+          <common-button-with-loading class="w-full" :loading="loading" @click="sendReset">
+            Reset
+          </common-button-with-loading>
         </div>
       </div>
       <div v-else class="space-y-6">
@@ -47,7 +42,7 @@ import useVuelidate from '@vuelidate/core';
 import { definePageMeta } from '#imports';
 import { useAuthStore } from '~/store/auth';
 import { errVueHandler } from '~/helpers/errorResponser';
-import rulesModule from '~/helpers/rulesModule';
+import rul from '~/helpers/rulesModule';
 
 definePageMeta({
   layout: 'login'
@@ -61,8 +56,8 @@ const formData = reactive({
 });
 const rules = {
   email: {
-    required: rulesModule.required('The email field is required'),
-    email: rulesModule.email('Invalid email format Invalid email format Invalid email format Invalid email format')
+    required: rul.req,
+    email: rul.email
   }
 };
 const v$ = useVuelidate(rules, formData, {

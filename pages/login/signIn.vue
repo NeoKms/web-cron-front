@@ -14,6 +14,7 @@
             v-model="loginData.username"
             :loading="loading"
             :prop-validator="v$.username"
+            name="email"
           />
         </div>
         <div>
@@ -29,18 +30,14 @@
             v-model="loginData.password"
             :loading="loading"
             :prop-validator="v$.password"
+            name="password"
+            type="password"
           />
         </div>
         <div>
-          <button
-            :disabled="loading"
-            type="submit"
-            class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            @click="sendLogin"
-          >
-            <common-loading-circle v-if="loading" />
-            <span v-else>Sign in</span>
-          </button>
+          <common-button-with-loading class="w-full" :loading="loading" @click="sendLogin">
+            Sign in
+          </common-button-with-loading>
         </div>
       </div>
       <p class="mt-10 text-center text-sm text-gray-500">
@@ -59,7 +56,7 @@ import { definePageMeta } from '#imports';
 import { useAuthStore } from '~/store/auth';
 import { LoginDto } from '~/interfaces/apiTypes/auth/dto/login.dto';
 import { errVueHandler } from '~/helpers/errorResponser';
-import rulesModule from '~/helpers/rulesModule';
+import rul from '~/helpers/rulesModule';
 
 definePageMeta({
   layout: 'login'
@@ -72,11 +69,11 @@ const loginData = ref<LoginDto>({
 });
 const rules = {
   username: {
-    required: rulesModule.required('The email field is required'),
-    email: rulesModule.email('Invalid email format Invalid email format Invalid email format Invalid email format')
+    required: rul.req,
+    email: rul.email
   },
   password: {
-    required: rulesModule.required('The password field is required')
+    required: rul.req
   }
 };
 const v$ = useVuelidate(rules, loginData, {
