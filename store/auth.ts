@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { LoginDto } from '~/interfaces/apiTypes/auth/dto/login.dto';
 import { ResponseUserDto } from '~/interfaces/apiTypes/user/dto/response-user.dto';
 import apiClient from '~/helpers/apiClient';
+import { SignUpFormDataType } from '~/interfaces';
 
 export const useAuthStore = defineStore('authStore', () => {
   const config = useRuntimeConfig().public;
@@ -59,12 +60,47 @@ export const useAuthStore = defineStore('authStore', () => {
     },
     () => true);
   };
+  const verifyCode = ref('');
+  const verifyEmail = (email: string) => {
+    verifyCode.value = '';
+    return apiClient<string>('/auth/sendCode',
+      {
+        method: 'POST',
+        body: { email }
+      }, (res) => {
+        verifyCode.value = res;
+      });
+  };
+  const nextLogin = ref(false);
+  const signUp = (form: SignUpFormDataType) => {
+    nextLogin.value = false;
+    form.code = +form.code;
+    return apiClient<void>('/auth/signup', {
+      method: 'POST',
+      body: form
+    }, () => {
+      nextLogin.value = true;
+    })
+      .then((res) => {
+        if (nextLogin.value) {
+          return login({
+            username: form.email,
+            password: form.password
+          });
+        } else {
+          return res;
+        }
+      });
+  };
   return {
     checkAuth,
     user,
     login,
     isFailed,
     logout,
-    resetPassword
+    resetPassword,
+    verifyEmail,
+    verifyCode,
+    signUp
   };
 });

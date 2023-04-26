@@ -1,3 +1,5 @@
+import { SignUpDto } from '~/interfaces/apiTypes/auth/dto/sign-up.dto';
+
 export interface ResultWithMessage<T> {
   message: string;
   result: T;
@@ -29,3 +31,5 @@ export interface SimplePropValidatorInterface {
     $message: string;
   };
 }
+
+export type SignUpFormDataType = Omit<SignUpDto, 'fio' | 'toEntity'>;
