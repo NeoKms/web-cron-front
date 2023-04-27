@@ -34,7 +34,9 @@ export interface SimplePropValidatorInterface {
     $message: string;
   };
 }
-
+type withId = {
+  id: number;
+}
 export type SignUpFormDataType = Omit<SignUpDto, 'fio' | 'toEntity'>;
 export type UserListElementType = Pick<ResponseUserDto, 'banned_to' | 'email' | 'id' | 'fio' | 'phone' | 'isActive'>
-export type CreateUserType = Omit<CreateUserDto, 'toEntity' | 'fio'>
+export type CreateUserType = Omit<CreateUserDto, 'toEntity' | 'fio'> & withId

@@ -171,7 +171,7 @@
           </div>
         </div>
       </div>
-      <main class="md:ml-[3.35rem] px-4 flex-1 mx-auto py-6 sm:px-6 lg:px-8 overflow-auto h-screen">
+      <main class="md:ml-[3.35rem] px-4 flex-1 mx-auto sm:px-6 lg:px-8 overflow-auto h-screen">
         <slot />
       </main>
     </div>
