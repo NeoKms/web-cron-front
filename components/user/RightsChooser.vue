@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits(['update:modelValue']);
+const emits = defineEmits(['update:modelValue']);
 const props = defineProps({
   disabled: {
     type: Boolean,
@@ -56,10 +56,10 @@ const props = defineProps({
 });
 const prop = computed({
   get: () => props.modelValue,
-  set: v => emit('update:modelValue', v)
+  set: v => emits('update:modelValue', v)
 });
 const rightsTypes = ['Нет доступа', 'Чтение', 'Чтение и запись'];
-const setVal = (v) => {
+const setVal = (v: number) => {
   if (props.disabled) { return; }
   prop.value = v;
 };

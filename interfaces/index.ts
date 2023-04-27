@@ -2,6 +2,7 @@ import { SignUpDto } from '~/interfaces/apiTypes/auth/dto/sign-up.dto';
 import { ResponseUserDto } from '~/interfaces/apiTypes/user/dto/response-user.dto';
 import { UpdateUserDto } from '~/interfaces/apiTypes/user/dto/update-user.dto';
 import { CreateUserDto } from '~/interfaces/apiTypes/user/dto/create-user.dto';
+import PaginationDto from '~/interfaces/apiTypes/helpers/pagination.dto';
 
 export interface ResultWithMessage<T> {
   message: string;
@@ -40,3 +41,8 @@ type withId = {
 export type SignUpFormDataType = Omit<SignUpDto, 'fio' | 'toEntity'>;
 export type UserListElementType = Pick<ResponseUserDto, 'banned_to' | 'email' | 'id' | 'fio' | 'phone' | 'isActive'>
 export type CreateUserType = Omit<CreateUserDto, 'toEntity' | 'fio'> & withId
+export type DataTableOptions = Required<PaginationDto>
+export interface DataTableHeaderElement {
+  name: string;
+  value: string;
+}

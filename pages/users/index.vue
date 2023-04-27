@@ -5,17 +5,15 @@
         Добавить
       </common-button-with-loading>
     </div>
-    users page
-    {{ userList }}
+    <common-data-table :items="userList" :options="options" :headers="headers" :loading="loading" />
   </div>
 </template>
 
 <script setup lang="ts">
-
 import { useAsyncData } from '#app';
 import { useUserStore } from '~/store/user';
 import { computed } from '#imports';
-import { UserListElementType } from '~/interfaces';
+import { DataTableHeaderElement, DataTableOptions, UserListElementType } from '~/interfaces';
 import { errVueHandler } from '~/helpers/errorResponser';
 
 const userStore = useUserStore();
@@ -30,6 +28,19 @@ const apiCall = () => {
     });
 };
 useAsyncData('userList', apiCall);
+const options = ref<DataTableOptions>({
+  sortDesc: [],
+  sortBy: [],
+  itemsPerPage: 4,
+  page: 1,
+  groupBy: []
+});
+const headers = ref<DataTableHeaderElement[]>([
+  {
+    name: 'Активность',
+    value: 'is_active'
+  }
+]);
 </script>
 
 <style scoped>
