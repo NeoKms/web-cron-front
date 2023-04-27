@@ -2,21 +2,30 @@
   {{ paginationObj }}
   {{ optionsInternal.page }}
   <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
-    <div class="flex flex-1 justify-between sm:hidden">
-      <a href="#" class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Previous</a>
-      <a href="#" class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Next</a>
+    <div class="flex flex-1 justify-between sm:hidden items-center text-center">
+      <button :disabled="optionsInternal.page===1" class="justify-center w-16 relative inline-flex items-center rounded-md border border-gray-300 bg-white px-2 text-sm font-medium text-gray-700 hover:bg-gray-50" @click="optionsInternal.page--">
+        <span class="sr-only">Previous</span>
+        <common-my-svg-icon :path="mdiChevronLeft" class="h-5 w-5" aria-hidden="true" />
+      </button>
+      <p class="text-sm text-gray-700">
+        <span class="font-medium">{{ showing }}</span>
+        to
+        <span class="font-medium">{{ showingTo }}</span>
+        of
+        <span class="font-medium">{{ totalItems }}</span>
+      </p>
+      <button :disabled="optionsInternal.page===pageCount" class="justify-center w-16 relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-2 text-sm font-medium text-gray-700 hover:bg-gray-50" @click="optionsInternal.page++">
+        <span class="sr-only">Next</span>
+        <common-my-svg-icon :path="mdiChevronRight" class="h-5 w-5" aria-hidden="true" />
+      </button>
     </div>
     <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
       <div>
         <p class="text-sm text-gray-700">
           Showing
-          <span class="font-medium">{{
-            (optionsInternal.page - 1) * optionsInternal.itemsPerPage + 1
-          }}</span>
+          <span class="font-medium">{{ showing }}</span>
           to
-          <span class="font-medium">{{
-            optionsInternal.page * optionsInternal.itemsPerPage > totalItems ? totalItems : optionsInternal.page * optionsInternal.itemsPerPage
-          }}</span>
+          <span class="font-medium">{{ showingTo }}</span>
           of
           <span class="font-medium">{{ totalItems }}</span>
           results
@@ -174,6 +183,8 @@ const paginationObj = computed<PagObj>(() => {
   }
   return res;
 });
+const showing = computed(() => ((optionsInternal.value.page - 1) * optionsInternal.value.itemsPerPage + 1));
+const showingTo = computed(() => (optionsInternal.value.page * optionsInternal.value.itemsPerPage > totalItems.value ? totalItems : optionsInternal.value.page * optionsInternal.value.itemsPerPage));
 </script>
 
 <style scoped>
