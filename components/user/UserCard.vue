@@ -1,6 +1,6 @@
 <template>
   <div class="mx-auto sm:max-w-2xl p-8 sm:p-2">
-    <div class="mt-8 mb-8 h-[300px] overflow-auto">
+    <div class="mt-8 mb-8 overflow-auto">
       <div class="space-y-5">
         <div class="border-b border-gray-900/10">
           <h2 class="text-base font-semibold leading-7 text-gray-900">
@@ -79,10 +79,13 @@
           </div>
         </div>
       </div>
-      <div class="sticky-top mt-6 flex items-center justify-end gap-x-6">
-        <nuxt-link to="/users" class="text-sm font-semibold leading-6 text-gray-900">
-          Cancel
-        </nuxt-link>
+      <div class="bg-white sticky bottom-0 mt-6 flex items-center justify-end gap-x-6">
+        <common-button-with-loading @click="$router.push('/users')">
+          Отмена
+        </common-button-with-loading>
+        <common-button-with-loading>
+          Сохранить
+        </common-button-with-loading>
       </div>
     </div>
   </div>

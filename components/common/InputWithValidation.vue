@@ -13,8 +13,8 @@
         'bg-gray-200': loading
       }"
     >
-    <div v-if="propValidator.$errors.length" class="h-[22px] absolute overflow-hidden">
-      <span v-tooltip="'lll'" class="text-xs text-red-500 px-2">{{
+    <div v-if="propValidator.$errors.length" class="h-[22px] absolute overflow-hidden leading-[0.6rem] px-2">
+      <span v-tooltip="propValidator.$errors[0].$message" class="text-xs leading-[0.6rem] text-red-500">{{
         propValidator.$errors[0].$message
       }}</span>
     </div>
