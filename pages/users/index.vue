@@ -14,13 +14,41 @@
       :sticky-head="true"
     >
       <template #[`item.actions`]="{ item }">
-        <common-my-svg-icon
-          v-if="item.isActive"
-          class="text-green-600 pa-1 rounded-2xl border-2 cursor-pointer"
-          :path="mdiPowerPlugOutline"
-        />
-        <common-my-svg-icon v-else :path="mdiPowerPlugOffOutline" />
-        <common-my-svg-icon v-if="item.banned_to > (Date.now() / 1000)" :path="mdiLockOpenCheckOutline" />
+        <div class="flex space-x-2">
+          <common-my-svg-icon
+            v-if="item.isActive"
+            v-tooltip.auto="'Деактивировать'"
+            class="text-green-600 cursor-pointer focus:outline-none"
+            :path="mdiToggleSwitchVariant"
+            :class="{
+              'text-gray-500 cursor-default': changeStatusLoadingByUserId.has(item.id),
+              'text-green-600 cursor-pointer': !changeStatusLoadingByUserId.has(item.id)
+            }"
+            @click="changeActive(item,0)"
+          />
+          <common-my-svg-icon
+            v-else
+            v-tooltip.auto="'Активировать'"
+            class="text-green-600 cursor-pointer focus:outline-none"
+            :path="mdiToggleSwitchVariantOff"
+            :class="{
+              'text-gray-500 cursor-default': changeStatusLoadingByUserId.has(item.id),
+              'text-red-600 cursor-pointer': !changeStatusLoadingByUserId.has(item.id)
+            }"
+            @click="changeActive(item,1)"
+          />
+          <common-my-svg-icon
+            v-if="item.banned_to > (Date.now() / 1000)"
+            v-tooltip.auto="'Разбанить'"
+            :path="mdiLockClock"
+            class="focus:outline-none"
+            :class="{
+              'text-gray-500 cursor-default': unbanLoadingByUserId.has(item.id),
+              'text-red-600 cursor-pointer': !unbanLoadingByUserId.has(item.id)
+            }"
+            @click="unban(item)"
+          />
+        </div>
       </template>
     </common-data-table>
   </div>
@@ -28,12 +56,18 @@
 
 <script setup lang="ts">
 import { useAsyncData } from '#app';
-import { mdiLockOpenCheckOutline, mdiPowerPlugOffOutline, mdiPowerPlugOutline } from '@mdi/js';
+import {
+  mdiLockClock,
+  mdiToggleSwitchVariant,
+  mdiToggleSwitchVariantOff
+} from '@mdi/js';
 import { useUserStore } from '~/store/user';
 import { computed } from '#imports';
 import { DataTableHeaderElement, DataTableOptions, UserListElementType } from '~/interfaces';
 import { errVueHandler } from '~/helpers/errorResponser';
+import { useNotificationStore } from '~/store/notification';
 
+const notifStore = useNotificationStore();
 const userStore = useUserStore();
 const userList = computed<UserListElementType[]>(() => userStore.userList);
 const loading = ref(false);
@@ -68,6 +102,43 @@ const headers = ref<DataTableHeaderElement[]>([
     sort: false
   }
 ]);
+const unbanLoadingByUserId = ref<Set<number>>(new Set());
+const changeStatusLoadingByUserId = ref<Set<number>>(new Set());
+
+const unban = (user: UserListElementType) => {
+  unbanLoadingByUserId.value.add(user.id);
+  return userStore.unban(user.id)
+    .then((res) => {
+      if (errVueHandler(res)) {
+        notifStore.sendNotif({
+          type: 'success',
+          position: 'top',
+          message: 'Пользователь успешно разбанен',
+          duration: 2000
+        });
+      }
+    })
+    .finally(() => {
+      unbanLoadingByUserId.value.delete(user.id);
+    });
+};
+const changeActive = (user: UserListElementType, status: 1 | 0) => {
+  changeStatusLoadingByUserId.value.add(user.id);
+  return userStore[status === 1 ? 'activate' : 'deactivate'](user.id)
+    .then((res) => {
+      if (errVueHandler(res)) {
+        notifStore.sendNotif({
+          type: 'success',
+          position: 'top',
+          message: `Пользователь успешно ${status === 1 ? 'активирован' : 'деактивирован'}`,
+          duration: 2000
+        });
+      }
+    })
+    .finally(() => {
+      changeStatusLoadingByUserId.value.delete(user.id);
+    });
+};
 </script>
 
 <style scoped>
