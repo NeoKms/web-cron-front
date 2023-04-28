@@ -152,7 +152,7 @@ watch(formData.value, () => {
   formData.value.surname = formData.value.surname.trim();
 });
 const currentUser = computed<ResponseUserDto>(() => authStore.user as ResponseUserDto);
-const rights = Object.keys(currentUser.value.rights);
+const rights = Object.keys(currentUser.value.rights).filter(r=>currentUser.value.rights[r]>=1);
 const v$ = useVuelidate<CreateUserType>(rules, formData, {
   $lazy: true,
   $autoDirty: true
