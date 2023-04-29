@@ -28,9 +28,7 @@
                       v-if="(hoverHeaderElements.has(h.value)||isSort(h)) && !isSortDesc(h)"
                       :path="mdiArrowUp"
                     />
-                  </transition>
-                  <transition name="header">
-                    <common-my-svg-icon v-if="isSortDesc(h)" :path="mdiArrowDown" />
+                    <common-my-svg-icon v-else-if="isSortDesc(h)" :path="mdiArrowDown" />
                   </transition>
                 </div>
               </th>
@@ -297,16 +295,21 @@ const hoverHeaderElements = ref<Set<string>>(new Set());
 
 <style scoped lang="scss">
 .header-enter-active {
-  transition: all 0.1s ease-in-out;
+  transition: opacity 0.2s ease-in-out;
 }
-
 .header-leave-active {
-  transition: all 0.1s cubic-bezier(1, 0.5, 0.8, 1);
+  transition: opacity 0.2s ease-in-out;
 }
-
-.header-enter-from,
+.header-enter-from {
+  opacity: 0;
+}
+.header-enter-to {
+  opacity: 1;
+}
+.header-leave-from {
+  opacity: 1;
+}
 .header-leave-to {
-  transform: translateX(20px);
   opacity: 0;
 }
 </style>
