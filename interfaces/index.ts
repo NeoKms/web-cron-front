@@ -42,6 +42,7 @@ type withId = {
 export type SignUpFormDataType = Omit<SignUpDto, 'fio' | 'toEntity'>;
 export type UserListElementType = Pick<ResponseUserDto, 'banned_to' | 'email' | 'id' | 'fio' | 'phone' | 'isActive'>
 export type CreateUserType = Omit<CreateUserDto, 'toEntity' | 'fio'> & withId
+export type UserByIdType = Pick<ResponseUserDto, 'banned_to' | 'email' | 'id' | 'fio' | 'phone' | 'isActive' | 'rights'>
 export type DataTableOptions = Required<PaginationDto>
 
 export interface DataTableHeaderElement {

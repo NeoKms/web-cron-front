@@ -1,6 +1,7 @@
 import { useAuthStore } from '~/store/auth';
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
+  if (to.fullPath === '404') { return true; }
   const authStore = useAuthStore();
   if (to.fullPath === '/login/signIn' && authStore.isFailed === true) {
     return true;

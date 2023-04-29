@@ -1,9 +1,11 @@
 import { defineStore } from 'pinia';
-import { CreateUserType, UserListElementType } from '~/interfaces';
+import { CreateUserType, UserByIdType, UserListElementType } from '~/interfaces';
 import apiClient from '~/helpers/apiClient';
+import { ResponseUserDto } from '~/interfaces/apiTypes/user/dto/response-user.dto';
 
 export const useUserStore = defineStore('userStore', () => {
   const userList = ref<UserListElementType[]>([]);
+  const userById = ref<UserByIdType|null>(null);
   const fetchList = (payload: any = {}) => {
     return apiClient('/user/list', {
       method: 'POST',
@@ -56,5 +58,12 @@ export const useUserStore = defineStore('userStore', () => {
       }
     });
   };
-  return { fetchList, userList, create, update, unban, activate, deactivate };
+  const fetchById = (id: number) => {
+    return apiClient<ResponseUserDto>(`/user/${id}`,
+      { method: 'GET' },
+      (user) => {
+        userById.value = user;
+      });
+  };
+  return { fetchList, userList, create, update, unban, activate, deactivate, fetchById, userById };
 });
