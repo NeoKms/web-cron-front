@@ -6,9 +6,12 @@
         Добавить
       </common-button-with-loading>
     </div>
+    <div>
+      filter
+    </div>
     <common-data-table
-      :items="userList"
       :options="options"
+      :items="userList"
       :headers="headers"
       :loading="!!loading"
       :sticky-head="true"

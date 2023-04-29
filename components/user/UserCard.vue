@@ -77,7 +77,7 @@
         </div>
       </div>
       <div class="bg-white sticky bottom-0 mt-6 flex items-center justify-end gap-x-6">
-        <common-button-with-loading class="bg-red-500" @click="$router.push('/users')">
+        <common-button-with-loading color="red" @click="$router.push('/users')">
           Отмена
         </common-button-with-loading>
         <common-button-with-loading @click="sendSave">

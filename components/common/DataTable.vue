@@ -23,11 +23,15 @@
                   <span>
                     {{ h.text }}
                   </span>
-                  <common-my-svg-icon
-                    v-if="(hoverHeaderElements.has(h.value)||isSort(h)) && !isSortDesc(h)"
-                    :path="mdiArrowUp"
-                  />
-                  <common-my-svg-icon v-if="isSortDesc(h)" :path="mdiArrowDown" />
+                  <transition name="header">
+                    <common-my-svg-icon
+                      v-if="(hoverHeaderElements.has(h.value)||isSort(h)) && !isSortDesc(h)"
+                      :path="mdiArrowUp"
+                    />
+                  </transition>
+                  <transition name="header">
+                    <common-my-svg-icon v-if="isSortDesc(h)" :path="mdiArrowDown" />
+                  </transition>
                 </div>
               </th>
             </template>
@@ -157,6 +161,7 @@
 import { mdiArrowDown, mdiArrowUp, mdiChevronLeft, mdiChevronRight } from '@mdi/js';
 import { PropType } from 'vue';
 import { DataTableHeaderElement, DataTableOptions } from '~/interfaces';
+import { copyObject } from '~/helpers';
 
 const props = defineProps({
   stickyHead: {
@@ -203,11 +208,26 @@ const optionsInternal = computed<DataTableOptions>({
 const totalItems = computed<number>(() => props.totalCountExternal || props.items?.length || 0);
 const pageCount = computed<number>(() => props.pageCountExternal || parseInt((totalItems.value / optionsInternal.value.itemsPerPage).toString()) + ((totalItems.value % optionsInternal.value.itemsPerPage) > 0 ? 1 : 0));
 const filtredItems = computed<any[]>(() => {
+  let arr = copyObject<any[]>(props.items);
   if (props.totalCountExternal) {
-    return props.items.slice(0, optionsInternal.value.itemsPerPage);
+    arr = arr.slice(0, optionsInternal.value.itemsPerPage);
+  } else {
+    const start = (optionsInternal.value.page - 1) * optionsInternal.value.itemsPerPage;
+    arr = arr.slice(start, start + optionsInternal.value.itemsPerPage);
   }
-  const start = (optionsInternal.value.page - 1) * optionsInternal.value.itemsPerPage;
-  return props.items.slice(start, start + optionsInternal.value.itemsPerPage);
+  if (optionsInternal.value.sortBy.length) {
+    const prop = optionsInternal.value.sortBy[0];
+    const desc = optionsInternal.value.sortDesc.length && optionsInternal.value.sortDesc[0];
+    arr.sort((a, b) => {
+      if (desc && b[prop] < a[prop]) {
+        return -1;
+      } else if (!desc && a[prop] > b[prop]) {
+        return 1;
+      }
+      return 0;
+    });
+  }
+  return arr;
 });
 const isSort = ({ value }: { value: string }) => {
   return optionsInternal.value.sortBy.includes(value);
@@ -276,5 +296,17 @@ const hoverHeaderElements = ref<Set<string>>(new Set());
 </script>
 
 <style scoped lang="scss">
+.header-enter-active {
+  transition: all 0.1s ease-in-out;
+}
 
+.header-leave-active {
+  transition: all 0.1s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.header-enter-from,
+.header-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
+}
 </style>
