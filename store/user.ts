@@ -59,7 +59,7 @@ export const useUserStore = defineStore('userStore', () => {
     });
   };
   const fetchById = (id: number) => {
-    return apiClient<ResponseUserDto>(`/user/${id}`,
+    return apiClient<Required<ResponseUserDto>>(`/user/${id}`,
       { method: 'GET' },
       (user) => {
         userById.value = user;

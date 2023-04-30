@@ -3,10 +3,11 @@
     <div class="overflow-auto px-2">
       <div class="space-y-5">
         <div class="border-b border-gray-900/10">
-          <h2 class="text-base font-semibold leading-7 text-gray-900">
-            Добавление пользователя
+          <h2 class="text-base font-semibold leading-7 text-gray-900 mb-5">
+            <span v-if="isCreate">Добавление пользователя</span>
+            <span v-else>Редактирование пользователя</span>
           </h2>
-          <div class="mt-5 grid grid-cols-1 gap-x-6 sm:grid-cols-6 items-center">
+          <div v-if="formData.hasOwnProperty('email')" class="grid grid-cols-1 gap-x-6 sm:grid-cols-6 items-center">
             <div class="sm:col-span-6">
               <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
               <div class="mt-2">
@@ -53,7 +54,7 @@
                 />
               </div>
             </div>
-            <div class="sm:col-span-9">
+            <div v-if="formData.hasOwnProperty('password')" class="sm:col-span-9">
               <label class="block text-sm font-medium leading-6 text-gray-900">Password</label>
               <div class="mt-2">
                 <common-input-with-validation
@@ -98,6 +99,7 @@ import { useAuthStore } from '~/store/auth';
 import { ResponseUserDto } from '~/interfaces/apiTypes/user/dto/response-user.dto';
 import { useUserStore } from '~/store/user';
 import { errVueHandler } from '~/helpers/errorResponser';
+import { SimpleObject } from '~/interfaces/apiTypes/helpers/interfaces/common';
 
 const authStore = useAuthStore();
 const userStore = useUserStore();
@@ -119,12 +121,9 @@ const props = defineProps({
   }
 });
 const loading = ref(false);
+const isCreate = computed<boolean>(() => router.currentRoute.value.fullPath.includes('create'));
 const formData = ref<CreateUserType|UpdateUserType>(copyObject(props.card));
-const rules = {
-  email: {
-    required: rul.req,
-    email: rul.email
-  },
+const rules: SimpleObject = {
   name: {
     required: rul.req,
     minLen: rul.mil(2),
@@ -138,20 +137,29 @@ const rules = {
   secondname: {
     minLen: rul.mil(2),
     maxLen: rul.mal(100)
-  },
-  password: {
+  }
+};
+if (Object.prototype.hasOwnProperty.call(formData.value, 'email')) {
+  rules.email = {
+    required: rul.req,
+    email: rul.email
+  };
+}
+if (Object.prototype.hasOwnProperty.call(formData.value, 'password')) {
+  rules.password = {
     required: rul.req,
     minLen: rul.mil(8),
     maxLen: rul.mal(100)
-  }
-};
+  };
+}
 watch(formData.value, () => {
   if ((formData.value as CreateUserType).email) {
     (formData.value as CreateUserType).email = (formData.value as CreateUserType).email.toLowerCase().trim();
   }
   formData.value.secondname && (formData.value.secondname = formData.value.secondname.trim());
-  formData.value.name = formData.value.name.trim();
-  formData.value.surname = formData.value.surname.trim();
+  formData.value.name = formData.value.name.trim().replace(/\s/gi, '');
+  formData.value.surname = formData.value.surname.trim().replace(/\s/gi, '');
+  formData.value.secondname = formData.value?.secondname?.trim()?.replace(/\s/gi, '');
 });
 const currentUser = computed<ResponseUserDto>(() => authStore.user as ResponseUserDto);
 // @ts-ignore
