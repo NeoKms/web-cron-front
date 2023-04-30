@@ -18,7 +18,7 @@
     >
       <template #[`item.actions`]="{ item }">
         <div class="flex space-x-2">
-          <common-my-svg-icon :path="mdiPencil" class="text-orange-500 cursor-pointer focus:outline-none" @click="$router.push('/users/1'+item.id)" />
+          <common-my-svg-icon :path="mdiPencil" class="text-orange-500 cursor-pointer focus:outline-none" @click="$router.push('/users/'+item.id)" />
           <common-my-svg-icon
             v-if="item.isActive"
             v-tooltip.auto="'Деактивировать'"
