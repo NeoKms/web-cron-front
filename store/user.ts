@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { CreateUserType, UserByIdType, UserListElementType } from '~/interfaces';
+import { CreateUserType, UpdateUserType, UserByIdType, UserListElementType } from '~/interfaces';
 import apiClient from '~/helpers/apiClient';
 import { ResponseUserDto } from '~/interfaces/apiTypes/user/dto/response-user.dto';
 
@@ -21,8 +21,8 @@ export const useUserStore = defineStore('userStore', () => {
         body: payload
       });
   };
-  const update = (payload: CreateUserType) => {
-    return apiClient<void>(`/user/${payload.id}`,
+  const update = (id: number, payload: UpdateUserType) => {
+    return apiClient<void>(`/user/${id}`,
       {
         method: 'PATCH',
         body: payload

@@ -91,7 +91,7 @@
 <script setup lang="ts">
 import { PropType } from 'vue';
 import useVuelidate from '@vuelidate/core';
-import { CreateUserType } from '~/interfaces';
+import { CreateUserType, UpdateUserType } from '~/interfaces';
 import { copyObject } from '~/helpers';
 import rul from '~/helpers/rulesModule';
 import { useAuthStore } from '~/store/auth';
@@ -104,7 +104,7 @@ const userStore = useUserStore();
 const router = useRouter();
 const props = defineProps({
   card: {
-    type: Object as PropType<CreateUserType>,
+    type: Object as PropType<CreateUserType | UpdateUserType>,
     required: false,
     default: () => ({
       id: 0,
@@ -119,7 +119,7 @@ const props = defineProps({
   }
 });
 const loading = ref(false);
-const formData = ref<CreateUserType>(copyObject(props.card));
+const formData = ref<CreateUserType|UpdateUserType>(copyObject(props.card));
 const rules = {
   email: {
     required: rul.req,
@@ -146,7 +146,9 @@ const rules = {
   }
 };
 watch(formData.value, () => {
-  formData.value.email = formData.value.email.toLowerCase().trim();
+  if ((formData.value as CreateUserType).email) {
+    (formData.value as CreateUserType).email = (formData.value as CreateUserType).email.toLowerCase().trim();
+  }
   formData.value.secondname && (formData.value.secondname = formData.value.secondname.trim());
   formData.value.name = formData.value.name.trim();
   formData.value.surname = formData.value.surname.trim();
@@ -154,7 +156,7 @@ watch(formData.value, () => {
 const currentUser = computed<ResponseUserDto>(() => authStore.user as ResponseUserDto);
 // @ts-ignore
 const rights = Object.keys(currentUser.value.rights).filter((r: string) => currentUser.value.rights[r] >= 1);
-const v$ = useVuelidate<CreateUserType>(rules, formData, {
+const v$ = useVuelidate<CreateUserType | UpdateUserType>(rules, formData, {
   $lazy: true,
   $autoDirty: true
 });
@@ -164,11 +166,17 @@ const sendSave = () => {
     return;
   }
   loading.value = true;
-  const payload = copyObject<CreateUserType>(formData.value);
+  const payload = copyObject<CreateUserType|UpdateUserType>(formData.value);
   if (!payload.phone) {
     delete payload.phone;
   }
-  return userStore[formData.value.id > 0 ? 'update' : 'create'](payload)
+  let req = null;
+  if (formData.value.id > 0) {
+    req = userStore.update(formData.value.id, formData.value as UpdateUserType);
+  } else {
+    req = userStore.create(formData.value as CreateUserType);
+  }
+  return req
     .then((res) => {
       if (errVueHandler(res)) {
         router.push('/users');
