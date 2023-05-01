@@ -1,5 +1,8 @@
 <template>
-  <user-card :card="userCardData" />
+  <div>
+    {{ pending }}
+  </div>
+<!--  <user-card :key="pending" :loading-ext="pending" :card="userCardData" />-->
 </template>
 
 <script setup lang="ts">
@@ -32,14 +35,17 @@ const userCardData = computed<UpdateUserType>(() => {
     } as UpdateUserType;
   }
 });
-const { error } = await useAsyncData(
+const { error, pending } = await useAsyncData(
   'userById',
   () => userStore.fetchById(+route.params.id)
     .then((res) => {
       if (!errVueHandler(res)) {
         throw createError({ statusCode: 404, statusMessage: 'Page Not Found' });
       }
-    })
+    }),
+  {
+    lazy: true
+  }
 );
 if (error.value) {
   await navigateTo('/404', { redirectCode: 301 });

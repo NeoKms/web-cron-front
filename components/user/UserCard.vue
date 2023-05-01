@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto sm:max-w-2xl p-8 sm:p-2">
+  <div class="relative mx-auto sm:max-w-2xl p-8 sm:p-2">
     <div class="overflow-auto px-2">
       <div class="space-y-5">
         <div class="border-b border-gray-900/10">
@@ -86,6 +86,11 @@
         </common-button-with-loading>
       </div>
     </div>
+    <client-only>
+      <div v-if="loadingExt" class="absolute top-0 right-auto bg-white opacity-95 w-full h-full text-center">
+        <common-loading-circle class="w-40 h-40 mt-60" />
+      </div>
+    </client-only>
   </div>
 </template>
 
@@ -118,11 +123,19 @@ const props = defineProps({
       phone: '',
       password: ''
     } as CreateUserType)
+  },
+  loadingExt: {
+    type: Boolean,
+    default: false,
+    required: false
   }
 });
 const loading = ref(false);
 const isCreate = computed<boolean>(() => router.currentRoute.value.fullPath.includes('create'));
 const formData = ref<CreateUserType|UpdateUserType>(copyObject(props.card));
+onMounted(() => {
+  console.log('mounted card');
+});
 const rules: SimpleObject = {
   name: {
     required: rul.req,
