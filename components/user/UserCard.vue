@@ -129,9 +129,6 @@ const props = defineProps({
 const loading = ref(false);
 const isCreate = computed<boolean>(() => router.currentRoute.value.fullPath.includes('create'));
 const formData = ref<CreateUserType | UpdateUserType>(copyObject(props.card));
-onMounted(() => {
-  console.log('mounted card');
-});
 const rules: SimpleObject = {
   name: {
     required: rul.req,

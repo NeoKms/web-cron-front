@@ -45,6 +45,7 @@ export type CreateUserType = Omit<CreateUserDto, 'toEntity' | 'fio'> & withId
 export type UserByIdType = Required<Pick<ResponseUserDto, 'banned_to' | 'email' | 'id' | 'fio' | 'phone' | 'isActive' | 'rights'>>
 export type DataTableOptions = Required<PaginationDto>
 export type UpdateUserType = Omit<Required<UpdateUserDto>, 'fio' | 'toEntity'> & withId
+export type UpdateProfileType = Omit<UpdateUserType, 'rights'>
 export interface DataTableHeaderElement {
   text: string;
   value: string;
