@@ -86,11 +86,7 @@
         </common-button-with-loading>
       </div>
     </div>
-    <client-only>
-      <div v-if="loadingExt" class="absolute top-0 right-auto bg-white opacity-95 w-full h-full text-center">
-        <common-loading-circle class="w-40 h-40 mt-60" />
-      </div>
-    </client-only>
+    <common-loading-full :loading="!!(loading||loadingExt)" />
   </div>
 </template>
 
@@ -132,7 +128,7 @@ const props = defineProps({
 });
 const loading = ref(false);
 const isCreate = computed<boolean>(() => router.currentRoute.value.fullPath.includes('create'));
-const formData = ref<CreateUserType|UpdateUserType>(copyObject(props.card));
+const formData = ref<CreateUserType | UpdateUserType>(copyObject(props.card));
 onMounted(() => {
   console.log('mounted card');
 });
@@ -187,7 +183,7 @@ const sendSave = () => {
     return;
   }
   loading.value = true;
-  const payload = copyObject<CreateUserType|UpdateUserType>(formData.value);
+  const payload = copyObject<CreateUserType | UpdateUserType>(formData.value);
   if (!payload.phone) {
     delete payload.phone;
   }

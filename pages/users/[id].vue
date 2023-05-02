@@ -1,49 +1,59 @@
 <template>
-  <div>
-    {{ pending }}
-  </div>
-<!--  <user-card :key="pending" :loading-ext="pending" :card="userCardData" />-->
+  <user-card :key="pending" :card="userCardData" :loading-ext="pending" />
 </template>
 
 <script setup lang="ts">
-import { useAsyncData, useRoute } from '#app';
+import { useAsyncData, useRoute, useRouter } from '#app';
 import { useUserStore } from '~/store/user';
-import { UpdateUserType, UserByIdType } from '~/interfaces';
+import { UpdateUserType } from '~/interfaces';
 import { errVueHandler } from '~/helpers/errorResponser';
 
 const userStore = useUserStore();
 const route = useRoute();
-const userById = computed<UserByIdType|null>(() => userStore.userById);
-const userCardData = computed<UpdateUserType>(() => {
-  if (userById.value !== null) {
-    const splitted = userById.value?.fio.split(' ');
-    return {
-      id: userById.value.id,
-      name: splitted[0],
-      surname: splitted[1],
-      secondname: splitted.length === 3 ? splitted[3] : undefined,
-      phone: userById.value?.phone,
-      rights: userById.value?.rights
-    } as UpdateUserType;
-  } else {
-    return {
-      name: '',
-      surname: '',
-      secondname: '',
-      phone: '',
-      rights: {}
-    } as UpdateUserType;
-  }
-});
-const { error, pending } = await useAsyncData(
-  'userById',
-  () => userStore.fetchById(+route.params.id)
-    .then((res) => {
-      if (!errVueHandler(res)) {
-        throw createError({ statusCode: 404, statusMessage: 'Page Not Found' });
-      }
-    }),
+const router = useRouter();
+const def = {
+  name: '',
+  surname: '',
+  secondname: '',
+  phone: '',
+  rights: {}
+} as UpdateUserType;
+const {
+  error,
+  pending,
+  data: userCardData
+} = await useAsyncData<UpdateUserType>(
+  'userById_' + route.params.id,
+  async () => {
+    await userStore.fetchById(+route.params.id)
+      .then((res) => {
+        if (!errVueHandler(res)) {
+          if (process.server) {
+            throw createError({
+              statusCode: 404,
+              statusMessage: 'Page Not Found'
+            });
+          } else {
+            router.push('/404');
+          }
+        }
+      });
+    if (userStore.userById !== null) {
+      const splitted = userStore.userById?.fio.split(' ');
+      return {
+        id: userStore.userById.id,
+        name: splitted[0],
+        surname: splitted[1],
+        secondname: splitted.length === 3 ? splitted[3] : undefined,
+        phone: userStore.userById.phone,
+        rights: userStore.userById.rights
+      } as UpdateUserType;
+    } else {
+      return def;
+    }
+  },
   {
+    default: () => def,
     lazy: true
   }
 );

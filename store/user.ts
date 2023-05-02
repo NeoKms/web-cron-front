@@ -5,7 +5,7 @@ import { ResponseUserDto } from '~/interfaces/apiTypes/user/dto/response-user.dt
 
 export const useUserStore = defineStore('userStore', () => {
   const userList = ref<UserListElementType[]>([]);
-  const userById = ref<UserByIdType|null>(null);
+  const userById = ref<UserByIdType | null>(null);
   const fetchList = (payload: any = {}) => {
     return apiClient('/user/list', {
       method: 'POST',
@@ -59,12 +59,22 @@ export const useUserStore = defineStore('userStore', () => {
     });
   };
   const fetchById = (id: number) => {
-    // userById.value = null;
+    userById.value = null;
     return apiClient<Required<ResponseUserDto>>(`/user/${id}`,
       { method: 'GET' },
       (user) => {
         userById.value = user;
       });
   };
-  return { fetchList, userList, create, update, unban, activate, deactivate, fetchById, userById };
+  return {
+    fetchList,
+    userList,
+    create,
+    update,
+    unban,
+    activate,
+    deactivate,
+    fetchById,
+    userById
+  };
 });

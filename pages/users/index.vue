@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-4">
+  <div class="mt-4 relative">
     <div class="flex">
       <div class="flex-1" />
       <common-button-with-loading @click="$router.push('/users/create')">
@@ -18,7 +18,11 @@
     >
       <template #[`item.actions`]="{ item }">
         <div class="flex space-x-2">
-          <common-my-svg-icon :path="mdiPencil" class="text-orange-500 cursor-pointer focus:outline-none" @click="$router.push('/users/'+item.id)" />
+          <common-my-svg-icon
+            :path="mdiPencil"
+            class="text-orange-500 cursor-pointer focus:outline-none"
+            @click="$router.push('/users/'+item.id)"
+          />
           <common-my-svg-icon
             v-if="item.isActive"
             v-tooltip.auto="'Деактивировать'"
@@ -55,6 +59,7 @@
         </div>
       </template>
     </common-data-table>
+    <common-loading-full :loading="!!loading" />
   </div>
 </template>
 
