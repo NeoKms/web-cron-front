@@ -1,5 +1,7 @@
 <template>
-  <ssh-card />
+  <div class="my-auto">
+    <ssh-card />
+  </div>
 </template>
 
 <script setup lang="ts">
