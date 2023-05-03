@@ -251,7 +251,7 @@ const checkCurrentNav = (): void => {
 const fioSmall = computed<string>(() => {
   if (user?.value?.fio) {
     const splt = user?.value.fio.split(' ');
-    splt.pop();
+    splt.length > 2 && splt.pop();
     return splt.join(' ');
   } else {
     return '';

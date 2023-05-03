@@ -9,9 +9,25 @@
         </div>
         <div class="border-b border-gray-900/10 pb-5">
           <h2 class="text-base font-semibold leading-7 text-gray-900">
+            Смена пароля
+          </h2>
+          <user-change-pass />
+        </div>
+        <div class="border-b border-gray-900/10 pb-5">
+          <h2 class="text-base font-semibold leading-7 text-gray-900">
             Личная информация
           </h2>
           <div class="mt-5 grid grid-cols-1 gap-x-6 sm:grid-cols-9 items-center">
+            <div class="sm:col-span-9">
+              <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
+              <div class="mt-2">
+                <common-input-with-validation
+                  v-model="authStore.user.email"
+                  :disabled="true"
+                  :prop-validator="v$.name"
+                />
+              </div>
+            </div>
             <div class="sm:col-span-3">
               <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">First name</label>
               <div class="mt-2">
@@ -38,47 +54,16 @@
                 />
               </div>
             </div>
-          </div>
-        </div>
-        <div class="border-b border-gray-900/10 pb-5">
-          <h2 class="text-base font-semibold leading-7 text-gray-900">
-            Смена пароля
-          </h2>
-          <div class="mt-5 grid grid-cols-1 gap-x-6 sm:grid-cols-9 items-center">
-            <div class="sm:col-span-3">
-              <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Текущий</label>
-              <div class="mt-2">
-                <common-input-with-validation v-model="passObj.current" :loading="!!loading" />
-              </div>
-            </div>
-            <div class="sm:col-span-3">
-              <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Новый</label>
-              <div class="mt-2">
-                <common-input-with-validation
-                  v-model="passObj.new"
-                  :loading="!!loading"
-                />
-              </div>
-            </div>
-            <div class="sm:col-span-3">
-              <label class="block text-sm font-medium leading-6 text-gray-900">Повторить новый</label>
-              <div class="mt-2">
-                <common-input-with-validation
-                  v-model="passObj.newTwice"
-                  :loading="!!loading"
-                />
-              </div>
+            <div class="sm:col-span-3 sm:col-start-4">
+              <common-button-with-loading class="w-full" :disabled="!changed" @click="save">
+                Обновить
+              </common-button-with-loading>
             </div>
           </div>
         </div>
       </div>
-      <div class="bg-white sticky bottom-0 mt-6 flex items-center justify-end gap-x-6">
-        <common-button-with-loading @click="save">
-          Сохранить
-        </common-button-with-loading>
-      </div>
+      <common-loading-full :loading="!!loading" />
     </div>
-    <common-loading-full :loading="!!loading" />
   </div>
 </template>
 
@@ -93,8 +78,6 @@ import { getSplittedFio } from '~/helpers';
 import { ResponseUserDto } from '~/interfaces/apiTypes/user/dto/response-user.dto';
 import { SimpleObject } from '~/interfaces/apiTypes/helpers/interfaces/common';
 import rul from '~/helpers/rulesModule';
-import { ResetPasswordDto } from '~/interfaces/apiTypes/auth/dto/reset-password.dto';
-import { ChangePasswordDto } from '~/interfaces/apiTypes/auth/dto/change-password.dto';
 
 const authStore = useAuthStore();
 const userStore = useUserStore();
@@ -103,6 +86,7 @@ const loading = ref(false);
 const user = computed<ResponseUserDto>(() => authStore.user as ResponseUserDto);
 const save = () => {
   v$.value.$validate();
+  console.log(v$.value);
   if (v$.value.$error) {
     return;
   }
@@ -127,6 +111,8 @@ const formData = ref<UpdateProfileType>({
   ...getSplittedFio(user.value.fio),
   phone: user.value.phone
 });
+const savedFormData = JSON.stringify(formData.value);
+const changed = computed<boolean>(() => savedFormData !== JSON.stringify(formData.value));
 const rules: SimpleObject = {
   name: {
     required: rul.req,
@@ -146,14 +132,10 @@ const rules: SimpleObject = {
 watch(formData.value, () => {
   formData.value.name = formData.value.name.trim().replace(/\s/gi, '');
   formData.value.surname = formData.value.surname.trim().replace(/\s/gi, '');
-  formData.value.secondname = formData.value.secondname.trim().replace(/\s/gi, '');
-});
-const passObj = ref<ChangePasswordDto>({
-  current: '',
-  new: '',
-  newTwice: ''
+  formData.value.secondname && (formData.value.secondname = formData.value.secondname.trim().replace(/\s/gi, ''));
 });
 const v$ = useVuelidate<UpdateProfileType>(rules, formData, {
+  $stopPropagation: true,
   $lazy: true,
   $autoDirty: true
 });

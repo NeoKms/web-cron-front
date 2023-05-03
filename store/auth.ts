@@ -3,6 +3,7 @@ import { LoginDto } from '~/interfaces/apiTypes/auth/dto/login.dto';
 import { ResponseUserDto } from '~/interfaces/apiTypes/user/dto/response-user.dto';
 import apiClient from '~/helpers/apiClient';
 import { SignUpFormDataType } from '~/interfaces';
+import { ChangePasswordDto } from '~/interfaces/apiTypes/auth/dto/change-password.dto';
 
 export const useAuthStore = defineStore('authStore', () => {
   const config = useRuntimeConfig().public;
@@ -92,7 +93,14 @@ export const useAuthStore = defineStore('authStore', () => {
         }
       });
   };
+  const changePassword = (payload: ChangePasswordDto) => {
+    return apiClient<void>('/auth/password/change', {
+      method: 'POST',
+      body: payload
+    });
+  };
   return {
+    changePassword,
     checkAuth,
     user,
     login,

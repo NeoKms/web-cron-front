@@ -81,7 +81,7 @@
         <common-button-with-loading color="red" @click="$router.push('/users')">
           Отмена
         </common-button-with-loading>
-        <common-button-with-loading @click="sendSave">
+        <common-button-with-loading :disabled="!changed" @click="sendSave">
           Сохранить
         </common-button-with-loading>
       </div>
@@ -129,6 +129,8 @@ const props = defineProps({
 const loading = ref(false);
 const isCreate = computed<boolean>(() => router.currentRoute.value.fullPath.includes('create'));
 const formData = ref<CreateUserType | UpdateUserType>(copyObject(props.card));
+const savedFormData = JSON.stringify(formData.value);
+const changed = computed<boolean>(() => savedFormData !== JSON.stringify(formData.value));
 const rules: SimpleObject = {
   name: {
     required: rul.req,
@@ -161,6 +163,9 @@ if (Object.prototype.hasOwnProperty.call(formData.value, 'password')) {
 watch(formData.value, () => {
   if ((formData.value as CreateUserType).email) {
     (formData.value as CreateUserType).email = (formData.value as CreateUserType).email.toLowerCase().trim();
+  }
+  if ((formData.value as CreateUserType).password) {
+    (formData.value as CreateUserType).password = (formData.value as CreateUserType).password.trim().replace(/\s/gi, '');
   }
   formData.value.secondname && (formData.value.secondname = formData.value.secondname.trim());
   formData.value.name = formData.value.name.trim().replace(/\s/gi, '');
