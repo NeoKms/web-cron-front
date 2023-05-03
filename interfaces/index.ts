@@ -4,6 +4,7 @@ import { UpdateUserDto } from '~/interfaces/apiTypes/user/dto/update-user.dto';
 import { CreateUserDto } from '~/interfaces/apiTypes/user/dto/create-user.dto';
 import PaginationDto from '~/interfaces/apiTypes/helpers/pagination.dto';
 import ResponseSshDto from '~/interfaces/apiTypes/ssh/dto/response-ssh.dto';
+import CreateSshDto from '~/interfaces/apiTypes/ssh/dto/create-ssh.dto';
 
 export interface ResultWithMessage<T> {
   message: string;
@@ -48,7 +49,7 @@ export type DataTableOptions = Required<PaginationDto>
 export type UpdateUserType = Omit<Required<UpdateUserDto>, 'fio' | 'toEntity'> & withId
 export type UpdateProfileType = Omit<UpdateUserType, 'rights'>
 export type SshElementType = Required<ResponseSshDto>
-
+export type CreateSshType = Omit<CreateSshDto, 'privateKey'|'toEntity'> & {privateKey: File|null}
 export interface DataTableHeaderElement {
   text: string;
   value: string;

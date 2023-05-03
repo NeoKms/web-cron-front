@@ -86,7 +86,6 @@ const loading = ref(false);
 const user = computed<ResponseUserDto>(() => authStore.user as ResponseUserDto);
 const save = () => {
   v$.value.$validate();
-  console.log(v$.value);
   if (v$.value.$error) {
     return;
   }

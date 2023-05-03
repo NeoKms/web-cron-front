@@ -1,19 +1,18 @@
 <template>
   <div class="mt-2 relative mb-7">
-    <input
+    <textarea
       v-model="prop"
       :disabled="loading||disabled"
       :name="name"
-      :type="type"
+      :rows="rows"
       autocomplete="on"
       :autofocus="autofocus"
-      :placeholder="placeholder"
       class="border-0 border-gray-400 w-full rounded-md  py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
       :class="{
         'ring-red-400': propValidator.$errors.length,
         'bg-gray-200': loading||disabled
       }"
-    >
+    />
     <div v-if="propValidator.$errors.length" class="mt-0.5 h-[22px] absolute overflow-hidden leading-[0.5rem] px-2">
       <span v-tooltip="propValidator.$errors[0].$message" class="text-xs leading-[0.6rem] text-red-500">{{
         propValidator.$errors[0].$message
@@ -27,14 +26,9 @@
 import { SimplePropValidatorInterface } from '~/interfaces';
 
 const props = defineProps({
-  placeholder: {
-    type: String,
-    default: '',
-    required: false
-  },
-  type: {
-    type: String,
-    default: 'text',
+  rows: {
+    type: Number,
+    default: 3,
     required: false
   },
   autofocus: {
