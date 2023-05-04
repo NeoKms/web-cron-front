@@ -25,9 +25,6 @@
         <h2 class="text-base font-semibold leading-7 text-gray-900 mb-5">
           <span>Расписание</span>
         </h2>
-        <div class="mt-5 flex">
-          <span>Шаблоны</span>
-        </div>
         <div class="mt-5 grid grid-cols-1 gap-x-2 lg:grid-cols-5 gap-y-0 items-center">
           <div class="col-span-1">
             <common-input-with-validation
@@ -70,6 +67,11 @@
             />
           </div>
         </div>
+        <div class="w-full items-center flex justify-end">
+          <common-button-with-loading color="yellow" @click="panelRight=true">
+            Шаблоны
+          </common-button-with-loading>
+        </div>
       </div>
     </div>
     <div class="bg-white sticky bottom-0 py-2 mt-6 flex items-center justify-end gap-x-6">
@@ -81,6 +83,14 @@
       </common-button-with-loading>
     </div>
     <common-loading-full :loading="!!loading" />
+    <common-panel-right v-model="panelRight">
+      <template #title>
+        Шаблоны расписания крона
+      </template>
+      <button-with-loading v-for="(btn,index) in cronJobsTemplates" :key="index">
+        {{ btn.name }}
+      </button-with-loading>
+    </common-panel-right>
   </div>
 </template>
 
@@ -93,6 +103,7 @@ import { SimpleObject } from '~/interfaces/apiTypes/helpers/interfaces/common';
 import rul from '~/helpers/rulesModule';
 import { errVueHandler } from '~/helpers/errorResponser';
 import { useJobStore } from '~/store/job';
+import ButtonWithLoading from '~/components/common/ButtonWithLoading.vue';
 
 const jobStore = useJobStore();
 const router = useRouter();
@@ -157,6 +168,12 @@ const save = () => {
       loading.value = false;
     });
 };
+const panelRight = ref(false);
+const cronJobsTemplates = ref([
+  {
+    name: 'Каждую минуту'
+  }
+]);
 </script>
 
 <style scoped>
