@@ -8,9 +8,9 @@ import apiClient from '~/helpers/apiClient';
 export const useSshStore = defineStore('sshStore', () => {
   const sshList = ref<SshElementType[]>([]);
   const fetchList = () => {
-    return apiClient('/ssh', {
+    return apiClient<SshElementType[]>('/ssh', {
       method: 'GET'
-    }, (list: SshElementType[]) => {
+    }, (list) => {
       sshList.value = list ?? [];
     });
   };
