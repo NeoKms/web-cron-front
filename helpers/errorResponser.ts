@@ -1,12 +1,12 @@
 import { EnvConfig } from '~/interfaces';
 import { useNotificationStore } from '~/store/notification';
 
-export const errRequestHandler = (err: any, config: EnvConfig): boolean|string => {
+export const errRequestHandler = (err: any, config: EnvConfig): boolean | string => {
   if (!config.PRODUCTION) {
     console.error(err.message);
   }
   if (Object.prototype.hasOwnProperty.call(err, 'response') && err.response) {
-    if ([400, 404, 401, 403].includes(err.response?.status)) {
+    if ([400, 404, 401, 403, 500].includes(err.response?.status)) {
       return err.response._data.message;
     }
   } else {

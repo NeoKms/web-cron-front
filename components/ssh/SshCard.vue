@@ -6,40 +6,56 @@
           <span>Добавление сервера</span>
         </h2>
       </div>
-      <div class="border-b border-gray-900/10 pb-5">
-        <h2 class="text-base font-semibold leading-7 text-gray-900">
-          Информация
-        </h2>
+      <div class="border-b border-gray-900/10">
         <div class="mt-5 grid grid-cols-1 gap-x-6 sm:grid-cols-9 items-center">
           <div class="sm:col-span-3">
             <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
             <div class="mt-2">
-              <common-input-with-validation v-model="formData.username" :loading="!!loading" :prop-validator="v$.username" placeholder="root" />
+              <common-input-with-validation
+                v-model="formData.username"
+                :loading="!!loading"
+                :prop-validator="v$.username"
+                placeholder="root"
+              />
             </div>
           </div>
           <div class="sm:col-span-3">
             <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Host</label>
             <div class="mt-2">
-              <common-input-with-validation v-model="formData.host" :loading="!!loading" :prop-validator="v$.host" placeholder="192.168.1.1" />
+              <common-input-with-validation
+                v-model="formData.host"
+                :loading="!!loading"
+                :prop-validator="v$.host"
+                placeholder="192.168.1.1"
+              />
             </div>
           </div>
           <div class="sm:col-span-3">
             <label class="block text-sm font-medium leading-6 text-gray-900">Port</label>
             <div class="mt-2">
-              <common-input-with-validation v-model="formData.port" :loading="!!loading" :prop-validator="v$.port" placeholder="22" />
+              <common-input-with-validation
+                v-model="formData.port"
+                :loading="!!loading"
+                :prop-validator="v$.port"
+                placeholder="22"
+              />
             </div>
           </div>
           <div class="sm:col-span-9">
             <label class="block text-sm font-medium leading-6 text-gray-900">Description</label>
             <div class="mt-2">
-              <common-textarea-with-validation v-model="formData.description" :loading="!!loading" :prop-validator="v$.description" />
+              <common-textarea-with-validation
+                v-model="formData.description"
+                :loading="!!loading"
+                :prop-validator="v$.description"
+              />
             </div>
           </div>
         </div>
       </div>
       <div class="col-span-full">
         <div
-          class="mt-2 flex justify-center rounded-lg border px-6 py-10"
+          class="mt-2 flex justify-center rounded-lg border px-6 py-10 relative h-48"
           :class="{
             'bg-gray-200': dragInProgress||loading,
             'border-red-600': v$.privateKey.$errors.length,
@@ -78,11 +94,19 @@
               OpenSSH, PuTTY etc.
             </p>
           </div>
-          <div v-else class="text-center">
-            {{ formData.privateKey.name }}
+          <div v-else class="flex justify-center items-center">
+            <span>{{ formData.privateKey.name }}</span>
+            <common-my-svg-icon
+              :path="mdiTrashCanOutline"
+              class="cursor-pointer text-red-500 hover:scale-105 rounded-2xl"
+              @click="formData.privateKey=null"
+            />
           </div>
         </div>
-        <div v-if="v$.privateKey.$errors.length" class="mt-0.5 h-[22px] absolute overflow-hidden leading-[0.5rem] px-2">
+        <div
+          v-if="v$.privateKey.$errors.length"
+          class="mt-0.5 h-[22px] absolute overflow-hidden leading-[0.5rem] px-2"
+        >
           <span v-tooltip="v$.privateKey.$errors[0].$message" class="text-xs leading-[0.6rem] text-red-500">{{
             v$.privateKey.$errors[0].$message
           }}</span>
@@ -102,16 +126,21 @@
 </template>
 
 <script setup lang="ts">
-import { mdiFileKeyOutline } from '@mdi/js';
+import { useRouter } from '#app';
+import { mdiFileKeyOutline, mdiTrashCanOutline } from '@mdi/js';
 import useVuelidate from '@vuelidate/core';
 import { useNotificationStore } from '~/store/notification';
 import { CreateSshType } from '~/interfaces';
 import { SimpleObject } from '~/interfaces/apiTypes/helpers/interfaces/common';
 import rul from '~/helpers/rulesModule';
+import { useSshStore } from '~/store/ssh';
+import { errVueHandler } from '~/helpers/errorResponser';
 
 const notifStore = useNotificationStore();
+const sshStore = useSshStore();
 const uploadFile = ref<HTMLInputElement | null>(null);
 const loading = ref(false);
+const router = useRouter();
 const dragInProgress = ref<boolean>(false);
 const formData = ref<CreateSshType>({
   host: '',
@@ -167,7 +196,9 @@ const changeFileInput = (file?: File) => {
 };
 const drop = (evt: DragEvent) => {
   dragInProgress.value = false;
-  if (formData.value.privateKey || loading.value) { return; }
+  if (formData.value.privateKey || loading.value) {
+    return;
+  }
   evt.preventDefault();
   evt.stopPropagation();
   const file = evt.dataTransfer?.files[0];
@@ -175,9 +206,19 @@ const drop = (evt: DragEvent) => {
 };
 const save = () => {
   v$.value.$validate();
-  if (v$.value.$error) { return; }
+  if (v$.value.$error) {
+    return;
+  }
   loading.value = true;
-  // todo send
+  return sshStore.create(formData.value)
+    .then((res) => {
+      if (errVueHandler(res)) {
+        router.push('/ssh');
+      }
+    })
+    .finally(() => {
+      loading.value = false;
+    });
 };
 </script>
 <style scoped>

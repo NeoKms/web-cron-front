@@ -24,15 +24,15 @@ const props = defineProps({
     required: false
   },
   color: {
-    type: String as PropType<'red'|'green'|'blue'|'indigo'|'yellow'|'orange'>,
+    type: String as PropType<'red' | 'green' | 'blue' | 'indigo' | 'yellow' | 'orange'>,
     required: false,
     default: 'indigo'
   }
 });
 const activeTemplate = 'bg-_C_-600 focus-visible:outline-_C_-600 hover:bg-_C_-500';
 const activeClass = computed(() => activeTemplate.replace(/_C_/gi, props.color));
-const disabledTemplate = 'bg-gray-600';
-const disabledClass = computed(() => disabledTemplate);
+const disabledTemplate = 'bg-_C_-900';
+const disabledClass = computed(() => disabledTemplate.replace(/_C_/gi, props.color));
 const classArray = computed(() => {
   const arr = [];
   if (props.disabled) {
