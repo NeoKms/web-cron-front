@@ -1,5 +1,5 @@
 <template>
-  <div class="relative mx-auto sm:max-w-2xl p-8 sm:p-2">
+  <div class="relative mx-auto sm:max-w-2xl p-8 sm:p-2 sm:mt-10">
     <div class="space-y-5">
       <div class="border-b border-gray-900/10">
         <h2 class="text-base font-semibold leading-7 text-gray-900 mb-5">
@@ -70,12 +70,16 @@
             v-if="!formData.privateKey"
             class="text-center"
           >
-            <common-my-svg-icon :path="mdiFileKeyOutline" class="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
+            <common-my-svg-icon
+              :path="mdiFileKeyOutline"
+              class="mx-auto h-10 w-10 sm:h-12 sm:w-12 text-gray-300"
+              aria-hidden="true"
+            />
             <div class="mt-4 flex text-sm leading-6 text-gray-600">
               <label
                 class="relative cursor-pointer rounded-md font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
               >
-                <span>Upload a SSH private key file</span>
+                <span class="text-xs sm:text-base">Upload a SSH private key file</span>
                 <input
                   id="file-upload"
                   ref="uploadFile"
@@ -85,7 +89,7 @@
                   @change="changeFileInput()"
                 >
               </label>
-              <p class="pl-1">
+              <p class="pl-1 hidden">
                 or drag and drop
               </p>
             </div>
@@ -112,7 +116,7 @@
         </div>
       </div>
     </div>
-    <div class="bg-white sticky bottom-2 mt-6 flex items-center justify-end gap-x-6">
+    <div class="bg-white sticky bottom-0 py-2 mt-6 flex items-center justify-end gap-x-6">
       <common-button-with-loading color="red" @click="$router.push('/ssh')">
         Отмена
       </common-button-with-loading>

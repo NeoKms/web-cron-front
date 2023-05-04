@@ -1,12 +1,12 @@
 <template>
-  <div class="relative mx-auto sm:max-w-2xl p-8 sm:p-2">
+  <div class="relative mx-auto sm:max-w-5xl p-8 sm:p-2 sm:mt-10">
     <div class="space-y-5">
       <div class="border-b border-gray-900/10">
         <h2 class="text-base font-semibold leading-7 text-gray-900 mb-5">
           <span>Добавление задания</span>
         </h2>
       </div>
-      <div class="border-b border-gray-900/10">
+      <div class="border-b border-gray-900/10 pb-5">
         <div class="mt-5 grid grid-cols-1 gap-x-6 sm:grid-cols-9 items-center">
           <div class="col-span-full">
             <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Job</label>
@@ -21,8 +21,58 @@
           </div>
         </div>
       </div>
+      <div class="border-b border-gray-900/10 pb-5">
+        <h2 class="text-base font-semibold leading-7 text-gray-900 mb-5">
+          <span>Расписание</span>
+        </h2>
+        <div class="mt-5 flex">
+          <span>Шаблоны</span>
+        </div>
+        <div class="mt-5 grid grid-cols-1 gap-x-2 lg:grid-cols-5 gap-y-0 items-center">
+          <div class="col-span-1">
+            <common-input-with-validation
+              v-model="formData.job"
+              :loading="!!loading"
+              :prop-validator="v$.job"
+              placeholder="min (0-59)"
+            />
+          </div>
+          <div class="col-span-1">
+            <common-input-with-validation
+              v-model="formData.job"
+              :loading="!!loading"
+              :prop-validator="v$.job"
+              placeholder="hour (0-23)"
+            />
+          </div>
+          <div class="col-span-1">
+            <common-input-with-validation
+              v-model="formData.job"
+              :loading="!!loading"
+              :prop-validator="v$.job"
+              placeholder="day of month (1-31)"
+            />
+          </div>
+          <div class="col-span-1">
+            <common-input-with-validation
+              v-model="formData.job"
+              :loading="!!loading"
+              :prop-validator="v$.job"
+              placeholder="month (1-12)"
+            />
+          </div>
+          <div class="col-span-1">
+            <common-input-with-validation
+              v-model="formData.job"
+              :loading="!!loading"
+              :prop-validator="v$.job"
+              placeholder="day of week (0-6)"
+            />
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="bg-white sticky bottom-2 mt-6 flex items-center justify-end gap-x-6">
+    <div class="bg-white sticky bottom-0 py-2 mt-6 flex items-center justify-end gap-x-6">
       <common-button-with-loading color="red" @click="$router.push('/jobs')">
         Отмена
       </common-button-with-loading>
@@ -38,7 +88,6 @@
 
 import useVuelidate from '@vuelidate/core';
 import { useRouter } from '#app';
-import { mdiFileKeyOutline, mdiTrashCanOutline } from '@mdi/js';
 import { CreateJobType } from '~/interfaces';
 import { SimpleObject } from '~/interfaces/apiTypes/helpers/interfaces/common';
 import rul from '~/helpers/rulesModule';

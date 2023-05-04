@@ -1,7 +1,7 @@
 <template>
-  <div class="relative mx-auto sm:max-w-2xl p-8 sm:p-2">
+  <div class="relative mx-auto sm:max-w-2xl p-8 sm:p-2 sm:mt-10">
     <div class="space-y-5">
-      <div class="border-b border-gray-900/10">
+      <div class="border-b border-gray-900/10 pb-5">
         <h2 class="text-base font-semibold leading-7 text-gray-900 mb-5">
           <span v-if="isCreate">Добавление пользователя</span>
           <span v-else>Редактирование пользователя</span>
@@ -9,16 +9,14 @@
         <div v-if="formData.hasOwnProperty('email')" class="grid grid-cols-1 gap-x-6 sm:grid-cols-6 items-center">
           <div class="sm:col-span-6">
             <label class="block text-sm font-medium leading-6 text-gray-900">Email</label>
-            <div class="mt-2">
-              <common-input-with-validation
-                v-model="formData.email"
-                :loading="!!loading"
-                :prop-validator="v$.email"
-                :autofocus="true"
-                type="email"
-                name="email"
-              />
-            </div>
+            <common-input-with-validation
+              v-model="formData.email"
+              :loading="!!loading"
+              :prop-validator="v$.email"
+              :autofocus="true"
+              type="email"
+              name="email"
+            />
           </div>
         </div>
       </div>
@@ -76,7 +74,7 @@
         </div>
       </div>
     </div>
-    <div class="bg-white sticky bottom-2 mt-6 flex items-center justify-end gap-x-6">
+    <div class="bg-white sticky bottom-0 py-2 mt-6 flex items-center justify-end gap-x-6">
       <common-button-with-loading color="red" @click="$router.push('/users')">
         Отмена
       </common-button-with-loading>

@@ -282,7 +282,10 @@ const userNavigation = ref<UserNavigationItem[]>([
 
 <style scoped lang="scss">
 .sidebar {
-  transition: all .2s ease-in-out;
+  transition-delay: 250ms;
+  transition-property: all;
+  transition-timing-function: ease-in-out;
+  transition-duration: .2s;
   height: calc(100vh - 4rem);
 }
 
