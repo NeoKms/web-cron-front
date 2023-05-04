@@ -1,7 +1,5 @@
 <template>
-  <div>
-    create
-  </div>
+  <job-card />
 </template>
 
 <script setup lang="ts">
