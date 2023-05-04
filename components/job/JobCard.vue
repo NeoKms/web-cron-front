@@ -9,7 +9,7 @@
       <div class="border-b border-gray-900/10 pb-5">
         <div class="mt-5 grid grid-cols-1 gap-x-6 sm:grid-cols-9 items-center">
           <div class="col-span-full">
-            <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Job</label>
+            <label class="block text-sm font-medium leading-6 text-gray-900">Job</label>
             <div class="mt-2">
               <common-input-with-validation
                 v-model="formData.job"
@@ -25,98 +25,70 @@
         <h2 class="text-base font-semibold leading-7 text-gray-900 mb-5">
           <span>Расписание</span>
         </h2>
-        {{ formData.time }}
         <div class="mt-5 grid grid-cols-1 gap-x-2 lg:grid-cols-5 gap-y-0 items-center">
           <div class="col-span-1">
+            <label class="block text-sm font-medium leading-6 text-gray-900">Min</label>
             <common-input-with-validation
               v-model="formData.time.minute.value"
               :loading="!!loading"
               :prop-validator="v$.minute"
-              placeholder="min (0-59)"
-            >
-              <template #append>
-                <common-button-toggle v-model="formData.time.minute.period" class="w-full scale-105">
-                  <div class="flex items-center justify-center">
-                    <common-my-svg-icon class="h-4 w-4" :path="mdiSlashForward" />
-                    <common-my-svg-icon class="h-3 w-3" :path="mdiAsterisk" />
-                  </div>
-                </common-button-toggle>
-              </template>
-            </common-input-with-validation>
+              placeholder="0-59"
+            />
           </div>
           <div class="col-span-1">
+            <label class="block text-sm font-medium leading-6 text-gray-900">Hour</label>
             <common-input-with-validation
               v-model="formData.time.hour.value"
               :loading="!!loading"
               :prop-validator="v$.hour"
-              placeholder="hour (0-23)"
-            >
-              <template #append>
-                <common-button-toggle v-model="formData.time.hour.period" class="w-full scale-105">
-                  <div class="flex items-center justify-center">
-                    <common-my-svg-icon class="h-4 w-4" :path="mdiSlashForward" />
-                    <common-my-svg-icon class="h-3 w-3" :path="mdiAsterisk" />
-                  </div>
-                </common-button-toggle>
-              </template>
-            </common-input-with-validation>
+              placeholder="0-23"
+            />
           </div>
           <div class="col-span-1">
+            <label class="block text-sm font-medium leading-6 text-gray-900">Day of month</label>
             <common-input-with-validation
               v-model="formData.time.day.value"
               :loading="!!loading"
               :prop-validator="v$.day"
-              placeholder="day of month (1-31)"
-            >
-              <template #append>
-                <common-button-toggle v-model="formData.time.day.period" class="w-full scale-105">
-                  <div class="flex items-center justify-center">
-                    <common-my-svg-icon class="h-4 w-4" :path="mdiSlashForward" />
-                    <common-my-svg-icon class="h-3 w-3" :path="mdiAsterisk" />
-                  </div>
-                </common-button-toggle>
-              </template>
-            </common-input-with-validation>
+              placeholder="1-31"
+            />
           </div>
           <div class="col-span-1">
+            <label class="block text-sm font-medium leading-6 text-gray-900">Month</label>
             <common-input-with-validation
               v-model="formData.time.month.value"
               :loading="!!loading"
               :prop-validator="v$.month"
-              placeholder="month (1-12)"
-            >
-              <template #append>
-                <common-button-toggle v-model="formData.time.month.period" class="w-full scale-105">
-                  <div class="flex items-center justify-center">
-                    <common-my-svg-icon class="h-4 w-4" :path="mdiSlashForward" />
-                    <common-my-svg-icon class="h-3 w-3" :path="mdiAsterisk" />
-                  </div>
-                </common-button-toggle>
-              </template>
-            </common-input-with-validation>
+              placeholder="1-12"
+            />
           </div>
           <div class="col-span-1">
+            <label class="block text-sm font-medium leading-6 text-gray-900">Day of week</label>
             <common-input-with-validation
               v-model="formData.time.weekDay.value"
               :loading="!!loading"
               :prop-validator="v$.weekDay"
-              placeholder="day of week (0-6)"
-            >
-              <template #append>
-                <common-button-toggle v-model="formData.time.weekDay.period" class="w-full scale-105">
-                  <div class="flex items-center justify-center">
-                    <common-my-svg-icon class="h-4 w-4" :path="mdiSlashForward" />
-                    <common-my-svg-icon class="h-3 w-3" :path="mdiAsterisk" />
-                  </div>
-                </common-button-toggle>
-              </template>
-            </common-input-with-validation>
+              placeholder="0-6"
+            />
           </div>
         </div>
-        <div class="w-full items-center flex justify-end">
+        <div class="w-full items-center flex justify-end gap-x-2">
           <common-button-with-loading color="yellow" @click="panelRight=true">
             Шаблоны
           </common-button-with-loading>
+          <common-button-with-loading color="blue" @click="panelWiki=true">
+            Wiki
+          </common-button-with-loading>
+        </div>
+      </div>
+      <div class="border-b border-gray-900/10 pb-5">
+        <div class="mt-5 grid grid-cols-1 gap-x-6 sm:grid-cols-9 items-center">
+          <div class="col-span-full">
+            <label class="block text-sm font-medium leading-6 text-gray-900">Сервер</label>
+            <div class="mt-2">
+              <common-input-select v-model="formData.sshEntityId" :items="sshListForSelect" item-name="fullName" item-value="id" />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -133,9 +105,17 @@
       <template #title>
         Шаблоны расписания крона
       </template>
-      <button-with-loading v-for="(btn,index) in cronJobsTemplates" :key="index">
-        {{ btn.name }}
-      </button-with-loading>
+      <div class="grid grid-cols-2 gap-x-2 gap-y-2">
+        <button-with-loading v-for="(btn,index) in cronJobsTemplates" :key="index" @click="applyTemplate(btn.tmp)">
+          {{ btn.name }}
+        </button-with-loading>
+      </div>
+    </common-panel-right>
+    <common-panel-right v-model="panelWiki">
+      <template #title>
+        Cron wiki
+      </template>
+      todo :)
     </common-panel-right>
   </div>
 </template>
@@ -144,15 +124,17 @@
 
 import useVuelidate from '@vuelidate/core';
 import { useRouter } from '#app';
-import { mdiAsterisk, mdiSlashForward } from '@mdi/js';
-import { CreateJobType } from '~/interfaces';
+import { CreateJobType, internalTimeType } from '~/interfaces';
 import { SimpleObject } from '~/interfaces/apiTypes/helpers/interfaces/common';
 import rul from '~/helpers/rulesModule';
 import { errVueHandler } from '~/helpers/errorResponser';
 import { useJobStore } from '~/store/job';
 import ButtonWithLoading from '~/components/common/ButtonWithLoading.vue';
+import cronTemplates from '~/helpers/cronTemplates';
+import { useSshStore } from '~/store/ssh';
 
 const jobStore = useJobStore();
+const sshStore = useSshStore();
 const router = useRouter();
 const loading = ref(false);
 const formData = ref<CreateJobType>({
@@ -160,27 +142,26 @@ const formData = ref<CreateJobType>({
   sshEntityId: -1,
   time: {
     minute: {
-      period: false,
       value: ''
     },
     hour: {
-      period: false,
       value: ''
     },
     day: {
-      period: false,
       value: ''
     },
     month: {
-      period: false,
       value: ''
     },
     weekDay: {
-      period: false,
       value: ''
     }
   }
 });
+const sshListForSelect = computed(() => sshStore.sshList.map((el: any) => ({
+  fullName: `${el.username}@${el.host}`,
+  id: el.id
+})));
 const savedFormData = JSON.stringify(formData.value);
 const changed = computed<boolean>(() => savedFormData !== JSON.stringify(formData.value));
 const rules: SimpleObject = {
@@ -192,33 +173,6 @@ const rules: SimpleObject = {
   sshEntityId: {
     required: rul.req,
     isNum: rul.num
-  },
-  time: {
-    minute: {
-      required: rul.req,
-      minVal: rul.miv(0),
-      maxVal: rul.mav(59)
-    },
-    hour: {
-      required: rul.req,
-      minVal: rul.miv(0),
-      maxVal: rul.mav(23)
-    },
-    day: {
-      required: rul.req,
-      minVal: rul.miv(1),
-      maxVal: rul.mav(31)
-    },
-    month: {
-      required: rul.req,
-      minVal: rul.miv(1),
-      maxVal: rul.mav(12)
-    },
-    weekDay: {
-      required: rul.req,
-      minVal: rul.miv(0),
-      maxVal: rul.mav(6)
-    }
   }
 };
 const v$ = useVuelidate<CreateJobType>(rules, formData, {
@@ -226,7 +180,6 @@ const v$ = useVuelidate<CreateJobType>(rules, formData, {
   $autoDirty: true,
   $stopPropagation: true
 });
-console.log(v$);
 const save = () => {
   v$.value.$validate();
   if (v$.value.$error) {
@@ -244,11 +197,12 @@ const save = () => {
     });
 };
 const panelRight = ref(false);
-const cronJobsTemplates = ref([
-  {
-    name: 'Каждую минуту'
-  }
-]);
+const panelWiki = ref(false);
+const cronJobsTemplates = ref<{name: string, tmp: internalTimeType}[]>(cronTemplates);
+const applyTemplate = (tmp: internalTimeType) => {
+  formData.value.time = tmp;
+  panelRight.value = false;
+};
 </script>
 
 <style scoped>
