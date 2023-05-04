@@ -53,7 +53,32 @@ export type UpdateProfileType = Omit<UpdateUserType, 'rights'>
 export type SshElementType = Required<ResponseSshDto>
 export type CreateSshType = Omit<CreateSshDto, 'privateKey' | 'toEntity'> & { privateKey: File | null }
 export type JobElementType = Omit<ResponseJobDto, 'sshEntity'>;
-export type CreateJobType = Omit<CreateJobDto, 'toEntity'>;
+export type CreateJobType = {
+  job: string,
+  sshEntityId: number,
+  time: {
+    minute: {
+      period: false,
+      value: number | string
+    },
+    hour: {
+      period: false,
+      value: number | string
+    },
+    day: {
+      period: false,
+      value: number | string
+    },
+    month: {
+      period: false,
+      value: number | string
+    },
+    weekDay: {
+      period: false,
+      value: number | string
+    }
+  }
+};
 
 export interface DataTableHeaderElement {
   text: string;

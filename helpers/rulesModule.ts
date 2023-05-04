@@ -1,4 +1,14 @@
-import { email, helpers, ipAddress, maxLength, minLength, numeric, required, sameAs } from '@vuelidate/validators';
+import {
+  email,
+  helpers,
+  ipAddress,
+  maxLength, maxValue,
+  minLength,
+  minValue,
+  numeric,
+  required,
+  sameAs
+} from '@vuelidate/validators';
 import { Ref } from 'vue';
 
 export default {
@@ -8,5 +18,7 @@ export default {
   mil: (num: number) => helpers.withMessage(`Количество символов должно быть не меньше ${num}`, minLength(num)),
   mal: (num: number) => helpers.withMessage(`Количество символов должно быть не больше ${num}`, maxLength(num)),
   same: (propRef: Ref, nameInErr: string) => helpers.withMessage(`Должно быть одинаковым с ${nameInErr}`, sameAs(propRef)),
-  ip: helpers.withMessage('Должен соответствовать IP', ipAddress)
+  ip: helpers.withMessage('Должен соответствовать IP', ipAddress),
+  miv: (num: number) => helpers.withMessage(`Значение не меньше ${num}`, minValue(num)),
+  mav: (num: number) => helpers.withMessage(`Значение не больше ${num}`, maxValue(num))
 };
