@@ -68,7 +68,7 @@ const send = () => {
 <template>
   <div class="mt-5 grid grid-cols-1 gap-x-6 sm:grid-cols-9 items-center">
     <div class="sm:col-span-3">
-      <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Текущий</label>
+      <label class="block text-sm font-medium leading-6 text-gray-900">Текущий</label>
       <div class="mt-2">
         <common-input-with-validation
           v-model="formData.current"
@@ -79,7 +79,7 @@ const send = () => {
       </div>
     </div>
     <div class="sm:col-span-3">
-      <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Новый</label>
+      <label class="block text-sm font-medium leading-6 text-gray-900">Новый</label>
       <div class="mt-2">
         <common-input-with-validation
           v-model="formData.new"

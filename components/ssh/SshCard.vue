@@ -9,7 +9,7 @@
       <div class="border-b border-gray-900/10">
         <div class="mt-5 grid grid-cols-1 gap-x-6 sm:grid-cols-9 items-center">
           <div class="sm:col-span-3">
-            <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
+            <label class="block text-sm font-medium leading-6 text-gray-900">Username</label>
             <div class="mt-2">
               <common-input-with-validation
                 v-model="formData.username"
@@ -20,7 +20,7 @@
             </div>
           </div>
           <div class="sm:col-span-3">
-            <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Host</label>
+            <label class="block text-sm font-medium leading-6 text-gray-900">Host</label>
             <div class="mt-2">
               <common-input-with-validation
                 v-model="formData.host"
@@ -73,7 +73,6 @@
             <common-my-svg-icon :path="mdiFileKeyOutline" class="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
             <div class="mt-4 flex text-sm leading-6 text-gray-600">
               <label
-                for="file-upload"
                 class="relative cursor-pointer rounded-md font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
               >
                 <span>Upload a SSH private key file</span>

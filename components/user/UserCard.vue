@@ -8,7 +8,7 @@
         </h2>
         <div v-if="formData.hasOwnProperty('email')" class="grid grid-cols-1 gap-x-6 sm:grid-cols-6 items-center">
           <div class="sm:col-span-6">
-            <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
+            <label class="block text-sm font-medium leading-6 text-gray-900">Email</label>
             <div class="mt-2">
               <common-input-with-validation
                 v-model="formData.email"
@@ -28,13 +28,13 @@
         </h2>
         <div class="mt-5 grid grid-cols-1 gap-x-6 sm:grid-cols-9 items-center">
           <div class="sm:col-span-3">
-            <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">First name</label>
+            <label class="block text-sm font-medium leading-6 text-gray-900">First name</label>
             <div class="mt-2">
               <common-input-with-validation v-model="formData.name" :loading="!!loading" :prop-validator="v$.name" />
             </div>
           </div>
           <div class="sm:col-span-3">
-            <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Surname</label>
+            <label class="block text-sm font-medium leading-6 text-gray-900">Surname</label>
             <div class="mt-2">
               <common-input-with-validation
                 v-model="formData.surname"
