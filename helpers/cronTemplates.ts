@@ -1,341 +1,187 @@
 export default [
   {
-    name: 'Каждую минуту',
-    tmp: {
-      minute: {
-        value: '*'
+    name: 'По минутам',
+    items: [
+      {
+        name: 'Каждую минуту',
+        tmp: {
+          minute: '*',
+          hour: '*',
+          day: '*',
+          month: '*',
+          weekDay: '*'
+        }
       },
-      hour: {
-        value: '*'
+      {
+        name: 'Каждые 5 минут',
+        tmp: {
+          minute: '*/5',
+          hour: '*',
+          day: '*',
+          month: '*',
+          weekDay: '*'
+        }
       },
-      day: {
-        value: '*'
+      {
+        name: 'Каждые 10 минут',
+        tmp: {
+          minute: '*/10',
+          hour: '*',
+          day: '*',
+          month: '*',
+          weekDay: '*'
+        }
       },
-      month: {
-        value: '*'
+      {
+        name: 'Каждые 15 минут',
+        tmp: {
+          minute: '*/15',
+          hour: '*',
+          day: '*',
+          month: '*',
+          weekDay: '*'
+        }
       },
-      weekDay: {
-        value: '*'
+      {
+        name: 'Каждые 30 минут',
+        tmp: {
+          minute: '*/30',
+          hour: '*',
+          day: '*',
+          month: '*',
+          weekDay: '*'
+        }
       }
-    }
+    ]
   },
   {
-    name: 'Каждые 5 минут',
-    tmp: {
-      minute: {
-        value: '*/5'
+    name: 'По часам',
+    items: [
+      {
+        name: 'Каждый час',
+        tmp: {
+          minute: '*',
+          hour: '1/*',
+          day: '*',
+          month: '*',
+          weekDay: '*'
+        }
       },
-      hour: {
-        value: '*'
+      {
+        name: 'Каждые 2 часа',
+        tmp: {
+          minute: '*',
+          hour: '2/*',
+          day: '*',
+          month: '*',
+          weekDay: '*'
+        }
       },
-      day: {
-        value: '*'
+      {
+        name: 'Каждые 3 часа',
+        tmp: {
+          minute: '*',
+          hour: '3/*',
+          day: '*',
+          month: '*',
+          weekDay: '*'
+        }
       },
-      month: {
-        value: '*'
+      {
+        name: 'Каждые 4 часа',
+        tmp: {
+          minute: '4',
+          hour: '2/*',
+          day: '*',
+          month: '*',
+          weekDay: '*'
+        }
       },
-      weekDay: {
-        value: '*'
+      {
+        name: 'Каждые 6 часов',
+        tmp: {
+          minute: '*',
+          hour: '6/*',
+          day: '*',
+          month: '*',
+          weekDay: '*'
+        }
+      },
+      {
+        name: 'Каждые 8 часов',
+        tmp: {
+          minute: '*',
+          hour: '8/*',
+          day: '*',
+          month: '*',
+          weekDay: '*'
+        }
+      },
+      {
+        name: 'Каждые 12 часов',
+        tmp: {
+          minute: '*',
+          hour: '12/*',
+          day: '*',
+          month: '*',
+          weekDay: '*'
+        }
       }
-    }
+    ]
   },
   {
-    name: 'Каждые 10 минут',
-    tmp: {
-      minute: {
-        value: '*/10'
+    name: 'По дням',
+    items: [
+      {
+        name: 'Каждый день',
+        tmp: {
+          minute: '*',
+          hour: '*',
+          day: '1/*',
+          month: '*',
+          weekDay: '*'
+        }
       },
-      hour: {
-        value: '*'
+      {
+        name: 'Каждый полдень',
+        tmp: {
+          minute: '*',
+          hour: '12',
+          day: '1/*',
+          month: '*',
+          weekDay: '*'
+        }
       },
-      day: {
-        value: '*'
+      {
+        name: 'Каждую полночь',
+        tmp: {
+          minute: '*',
+          hour: '*',
+          day: '1/*',
+          month: '*',
+          weekDay: '*'
+        }
       },
-      month: {
-        value: '*'
+      {
+        name: 'Каждый понедельник',
+        tmp: {
+          minute: '*',
+          hour: '*',
+          day: '*',
+          month: '*',
+          weekDay: '1/*'
+        }
       },
-      weekDay: {
-        value: '*'
+      {
+        name: 'Каждую субботу',
+        tmp: {
+          minute: '*',
+          hour: '*',
+          day: '*',
+          month: '*',
+          weekDay: '6/*'
+        }
       }
-    }
-  },
-  {
-    name: 'Каждые 15 минут',
-    tmp: {
-      minute: {
-        value: '*/15'
-      },
-      hour: {
-        value: '*'
-      },
-      day: {
-        value: '*'
-      },
-      month: {
-        value: '*'
-      },
-      weekDay: {
-        value: '*'
-      }
-    }
-  },
-  {
-    name: 'Каждые 30 минут',
-    tmp: {
-      minute: {
-        value: '*/30'
-      },
-      hour: {
-        value: '*'
-      },
-      day: {
-        value: '*'
-      },
-      month: {
-        value: '*'
-      },
-      weekDay: {
-        value: '*'
-      }
-    }
-  },
-  {
-    name: 'Каждый час',
-    tmp: {
-      minute: {
-        value: '*'
-      },
-      hour: {
-        value: '1/*'
-      },
-      day: {
-        value: '*'
-      },
-      month: {
-        value: '*'
-      },
-      weekDay: {
-        value: '*'
-      }
-    }
-  },
-  {
-    name: 'Каждые 2 часа',
-    tmp: {
-      minute: {
-        value: '*'
-      },
-      hour: {
-        value: '2/*'
-      },
-      day: {
-        value: '*'
-      },
-      month: {
-        value: '*'
-      },
-      weekDay: {
-        value: '*'
-      }
-    }
-  }, {
-    name: 'Каждые 3 часа',
-    tmp: {
-      minute: {
-        value: '*'
-      },
-      hour: {
-        value: '3/*'
-      },
-      day: {
-        value: '*'
-      },
-      month: {
-        value: '*'
-      },
-      weekDay: {
-        value: '*'
-      }
-    }
-  },
-  {
-    name: 'Каждые 4 часа',
-    tmp: {
-      minute: {
-        value: '4'
-      },
-      hour: {
-        value: '2/*'
-      },
-      day: {
-        value: '*'
-      },
-      month: {
-        value: '*'
-      },
-      weekDay: {
-        value: '*'
-      }
-    }
-  },
-  {
-    name: 'Каждые 6 часов',
-    tmp: {
-      minute: {
-        value: '*'
-      },
-      hour: {
-        value: '6/*'
-      },
-      day: {
-        value: '*'
-      },
-      month: {
-        value: '*'
-      },
-      weekDay: {
-        value: '*'
-      }
-    }
-  },
-  {
-    name: 'Каждые 8 часов',
-    tmp: {
-      minute: {
-        value: '*'
-      },
-      hour: {
-        value: '8/*'
-      },
-      day: {
-        value: '*'
-      },
-      month: {
-        value: '*'
-      },
-      weekDay: {
-        value: '*'
-      }
-    }
-  },
-  {
-    name: 'Каждые 12 часов',
-    tmp: {
-      minute: {
-        value: '*'
-      },
-      hour: {
-        value: '12/*'
-      },
-      day: {
-        value: '*'
-      },
-      month: {
-        value: '*'
-      },
-      weekDay: {
-        value: '*'
-      }
-    }
-  },
-  {
-    name: 'Каждый день',
-    tmp: {
-      minute: {
-        value: '*'
-      },
-      hour: {
-        value: '*'
-      },
-      day: {
-        value: '1/*'
-      },
-      month: {
-        value: '*'
-      },
-      weekDay: {
-        value: '*'
-      }
-    }
-  },
-  {
-    name: 'Каждый полдень',
-    tmp: {
-      minute: {
-        value: '*'
-      },
-      hour: {
-        value: '12'
-      },
-      day: {
-        value: '1/*'
-      },
-      month: {
-        value: '*'
-      },
-      weekDay: {
-        value: '*'
-      }
-    }
-  },
-  {
-    name: 'Каждую полночь',
-    tmp: {
-      minute: {
-        value: '*'
-      },
-      hour: {
-        value: '*'
-      },
-      day: {
-        value: '1/*'
-      },
-      month: {
-        value: '*'
-      },
-      weekDay: {
-        value: '*'
-      }
-    }
-  },
-  {
-    name: 'Каждый понедельник',
-    tmp: {
-      minute: {
-        value: '*'
-      },
-      hour: {
-        value: '*'
-      },
-      day: {
-        value: '*'
-      },
-      month: {
-        value: '*'
-      },
-      weekDay: {
-        value: '1/*'
-      }
-    }
-  },
-  {
-    name: 'Каждую субботу',
-    tmp: {
-      minute: {
-        value: '*'
-      },
-      hour: {
-        value: '*'
-      },
-      day: {
-        value: '*'
-      },
-      month: {
-        value: '*'
-      },
-      weekDay: {
-        value: '6/*'
-      }
-    }
+    ]
   }
 ];

@@ -9,7 +9,7 @@
       <div class="border-b border-gray-900/10 pb-5">
         <div class="mt-5 grid grid-cols-1 gap-x-6 sm:grid-cols-9 items-center">
           <div class="col-span-full">
-            <label class="block text-sm font-medium leading-6 text-gray-900">Job</label>
+            <label class="block text-sm font-medium leading-6 text-gray-900">Задание</label>
             <div class="mt-2">
               <common-input-with-validation
                 v-model="formData.job"
@@ -29,7 +29,7 @@
           <div class="col-span-1">
             <label class="block text-sm font-medium leading-6 text-gray-900">Min</label>
             <common-input-with-validation
-              v-model="formData.time.minute.value"
+              v-model="formData.time.minute"
               :loading="!!loading"
               :prop-validator="v$.minute"
               placeholder="0-59"
@@ -38,7 +38,7 @@
           <div class="col-span-1">
             <label class="block text-sm font-medium leading-6 text-gray-900">Hour</label>
             <common-input-with-validation
-              v-model="formData.time.hour.value"
+              v-model="formData.time.hour"
               :loading="!!loading"
               :prop-validator="v$.hour"
               placeholder="0-23"
@@ -47,7 +47,7 @@
           <div class="col-span-1">
             <label class="block text-sm font-medium leading-6 text-gray-900">Day of month</label>
             <common-input-with-validation
-              v-model="formData.time.day.value"
+              v-model="formData.time.day"
               :loading="!!loading"
               :prop-validator="v$.day"
               placeholder="1-31"
@@ -56,7 +56,7 @@
           <div class="col-span-1">
             <label class="block text-sm font-medium leading-6 text-gray-900">Month</label>
             <common-input-with-validation
-              v-model="formData.time.month.value"
+              v-model="formData.time.month"
               :loading="!!loading"
               :prop-validator="v$.month"
               placeholder="1-12"
@@ -65,7 +65,7 @@
           <div class="col-span-1">
             <label class="block text-sm font-medium leading-6 text-gray-900">Day of week</label>
             <common-input-with-validation
-              v-model="formData.time.weekDay.value"
+              v-model="formData.time.weekDay"
               :loading="!!loading"
               :prop-validator="v$.weekDay"
               placeholder="0-6"
@@ -86,7 +86,12 @@
           <div class="col-span-full">
             <label class="block text-sm font-medium leading-6 text-gray-900">Сервер</label>
             <div class="mt-2">
-              <common-input-select v-model="formData.sshEntityId" :items="sshListForSelect" item-name="fullName" item-value="id" />
+              <common-input-select
+                v-model="formData.sshEntityId"
+                :items="sshListForSelect"
+                item-name="fullName"
+                item-value="id"
+              />
             </div>
           </div>
         </div>
@@ -105,10 +110,25 @@
       <template #title>
         Шаблоны расписания крона
       </template>
-      <div class="grid grid-cols-2 gap-x-2 gap-y-2">
-        <button-with-loading v-for="(btn,index) in cronJobsTemplates" :key="index" @click="applyTemplate(btn.tmp)">
-          {{ btn.name }}
-        </button-with-loading>
+      <div class="space-y-6">
+        <div
+          v-for="group in cronJobsTemplates"
+          :key="group.name"
+          class="shadow-md rounded-2xl border pb-4 px-2"
+        >
+          <h2 class="text-base my-2">
+            {{ group.name }}
+          </h2>
+          <div class="pl-4 grid md:grid-cols-2 gap-x-2 gap-y-2">
+            <button-with-loading
+              v-for="(btn,index) in group.items"
+              :key="index"
+              @click="applyTemplate(btn.tmp)"
+            >
+              {{ btn.name }}
+            </button-with-loading>
+          </div>
+        </div>
       </div>
     </common-panel-right>
     <common-panel-right v-model="panelWiki">
@@ -137,31 +157,24 @@ const jobStore = useJobStore();
 const sshStore = useSshStore();
 const router = useRouter();
 const loading = ref(false);
-const formData = ref<CreateJobType>({
-  job: '',
-  sshEntityId: -1,
-  time: {
-    minute: {
-      value: ''
-    },
-    hour: {
-      value: ''
-    },
-    day: {
-      value: ''
-    },
-    month: {
-      value: ''
-    },
-    weekDay: {
-      value: ''
-    }
-  }
-});
 const sshListForSelect = computed(() => sshStore.sshList.map((el: any) => ({
   fullName: `${el.username}@${el.host}`,
   id: el.id
 })));
+const formData = ref<CreateJobType>({
+  job: '',
+  sshEntityId: -1,
+  time: {
+    minute: '',
+    hour: '',
+    day: '',
+    month: '',
+    weekDay: ''
+  }
+});
+if (sshListForSelect.value.length) {
+  formData.value.sshEntityId = sshListForSelect.value[0].id;
+}
 const savedFormData = JSON.stringify(formData.value);
 const changed = computed<boolean>(() => savedFormData !== JSON.stringify(formData.value));
 const rules: SimpleObject = {
@@ -198,7 +211,7 @@ const save = () => {
 };
 const panelRight = ref(false);
 const panelWiki = ref(false);
-const cronJobsTemplates = ref<{name: string, tmp: internalTimeType}[]>(cronTemplates);
+const cronJobsTemplates = ref<{ name: string, tmp: internalTimeType }[]>(cronTemplates);
 const applyTemplate = (tmp: internalTimeType) => {
   formData.value.time = tmp;
   panelRight.value = false;
