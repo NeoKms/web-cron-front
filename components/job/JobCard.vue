@@ -29,45 +29,45 @@
           <div class="col-span-1">
             <label class="block text-sm font-medium leading-6 text-gray-900">Min</label>
             <common-input-with-validation
-              v-model="formData.time.minute"
+              v-model="formData.time.minute.value"
               :loading="!!loading"
-              :prop-validator="v$.minute"
+              :prop-validator="v$.time.minute.value"
               placeholder="0-59"
             />
           </div>
           <div class="col-span-1">
             <label class="block text-sm font-medium leading-6 text-gray-900">Hour</label>
             <common-input-with-validation
-              v-model="formData.time.hour"
+              v-model="formData.time.hour.value"
               :loading="!!loading"
-              :prop-validator="v$.hour"
+              :prop-validator="v$.time.hour.value"
               placeholder="0-23"
             />
           </div>
           <div class="col-span-1">
             <label class="block text-sm font-medium leading-6 text-gray-900">Day of month</label>
             <common-input-with-validation
-              v-model="formData.time.day"
+              v-model="formData.time.day.value"
               :loading="!!loading"
-              :prop-validator="v$.day"
+              :prop-validator="v$.time.day.value"
               placeholder="1-31"
             />
           </div>
           <div class="col-span-1">
             <label class="block text-sm font-medium leading-6 text-gray-900">Month</label>
             <common-input-with-validation
-              v-model="formData.time.month"
+              v-model="formData.time.month.value"
               :loading="!!loading"
-              :prop-validator="v$.month"
+              :prop-validator="v$.time.month.value"
               placeholder="1-12"
             />
           </div>
           <div class="col-span-1">
             <label class="block text-sm font-medium leading-6 text-gray-900">Day of week</label>
             <common-input-with-validation
-              v-model="formData.time.weekDay"
+              v-model="formData.time.weekDay.value"
               :loading="!!loading"
-              :prop-validator="v$.weekDay"
+              :prop-validator="v$.time.weekDay.value"
               placeholder="0-6"
             />
           </div>
@@ -165,11 +165,26 @@ const formData = ref<CreateJobType>({
   job: '',
   sshEntityId: -1,
   time: {
-    minute: '',
-    hour: '',
-    day: '',
-    month: '',
-    weekDay: ''
+    minute: {
+      value: '',
+      period: false
+    },
+    hour: {
+      value: '',
+      period: false
+    },
+    day: {
+      value: '',
+      period: false
+    },
+    month: {
+      value: '',
+      period: false
+    },
+    weekDay: {
+      value: '',
+      period: false
+    }
   }
 });
 if (sshListForSelect.value.length) {
@@ -186,6 +201,38 @@ const rules: SimpleObject = {
   sshEntityId: {
     required: rul.req,
     isNum: rul.num
+  },
+  time: {
+    minute: {
+      value: {
+        required: rul.req,
+        min: rul.cronTime.min
+      }
+    },
+    hour: {
+      value: {
+        required: rul.req,
+        min: rul.cronTime.min
+      }
+    },
+    day: {
+      value: {
+        required: rul.req,
+        min: rul.cronTime.min
+      }
+    },
+    month: {
+      value: {
+        required: rul.req,
+        min: rul.cronTime.min
+      }
+    },
+    weekDay: {
+      value: {
+        required: rul.req,
+        min: rul.cronTime.min
+      }
+    }
   }
 };
 const v$ = useVuelidate<CreateJobType>(rules, formData, {
@@ -211,7 +258,7 @@ const save = () => {
 };
 const panelRight = ref(false);
 const panelWiki = ref(false);
-const cronJobsTemplates = ref<{ name: string, tmp: internalTimeType }[]>(cronTemplates);
+const cronJobsTemplates = ref<{ name: string, items: { name: string, tmp: internalTimeType }[] }[]>(cronTemplates);
 const applyTemplate = (tmp: internalTimeType) => {
   formData.value.time = tmp;
   panelRight.value = false;

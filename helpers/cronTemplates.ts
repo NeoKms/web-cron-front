@@ -5,51 +5,126 @@ export default [
       {
         name: 'Каждую минуту',
         tmp: {
-          minute: '*',
-          hour: '*',
-          day: '*',
-          month: '*',
-          weekDay: '*'
+          minute: {
+            value: '*',
+            period: false
+          },
+          hour: {
+            value: '*',
+            period: false
+          },
+          day: {
+            value: '*',
+            period: false
+          },
+          month: {
+            value: '*',
+            period: false
+          },
+          weekDay: {
+            value: '*',
+            period: false
+          }
         }
       },
       {
         name: 'Каждые 5 минут',
         tmp: {
-          minute: '*/5',
-          hour: '*',
-          day: '*',
-          month: '*',
-          weekDay: '*'
+          minute: {
+            value: '5',
+            period: true
+          },
+          hour: {
+            value: '*',
+            period: false
+          },
+          day: {
+            value: '*',
+            period: false
+          },
+          month: {
+            value: '*',
+            period: false
+          },
+          weekDay: {
+            value: '*',
+            period: false
+          }
         }
       },
       {
         name: 'Каждые 10 минут',
         tmp: {
-          minute: '*/10',
-          hour: '*',
-          day: '*',
-          month: '*',
-          weekDay: '*'
+          minute: {
+            value: '10',
+            period: true
+          },
+          hour: {
+            value: '*',
+            period: false
+          },
+          day: {
+            value: '*',
+            period: false
+          },
+          month: {
+            value: '*',
+            period: false
+          },
+          weekDay: {
+            value: '*',
+            period: false
+          }
         }
       },
       {
         name: 'Каждые 15 минут',
         tmp: {
-          minute: '*/15',
-          hour: '*',
-          day: '*',
-          month: '*',
-          weekDay: '*'
+          minute: {
+            value: '15',
+            period: true
+          },
+          hour: {
+            value: '*',
+            period: false
+          },
+          day: {
+            value: '*',
+            period: false
+          },
+          month: {
+            value: '*',
+            period: false
+          },
+          weekDay: {
+            value: '*',
+            period: false
+          }
         }
       },
       {
         name: 'Каждые 30 минут',
         tmp: {
-          minute: '*/30',
-          hour: '*',
-          day: '*',
-          month: '*',
-          weekDay: '*'
+          minute: {
+            value: '30',
+            period: true
+          },
+          hour: {
+            value: '*',
+            period: false
+          },
+          day: {
+            value: '*',
+            period: false
+          },
+          month: {
+            value: '*',
+            period: false
+          },
+          weekDay: {
+            value: '*',
+            period: false
+          }
         }
       }
     ]
@@ -60,71 +135,176 @@ export default [
       {
         name: 'Каждый час',
         tmp: {
-          minute: '*',
-          hour: '1/*',
-          day: '*',
-          month: '*',
-          weekDay: '*'
+          minute: {
+            value: '*',
+            period: false
+          },
+          hour: {
+            value: '1',
+            period: true
+          },
+          day: {
+            value: '*',
+            period: false
+          },
+          month: {
+            value: '*',
+            period: false
+          },
+          weekDay: {
+            value: '*',
+            period: false
+          }
         }
       },
       {
         name: 'Каждые 2 часа',
         tmp: {
-          minute: '*',
-          hour: '2/*',
-          day: '*',
-          month: '*',
-          weekDay: '*'
+          minute: {
+            value: '*',
+            period: false
+          },
+          hour: {
+            value: '2',
+            period: true
+          },
+          day: {
+            value: '*',
+            period: false
+          },
+          month: {
+            value: '*',
+            period: false
+          },
+          weekDay: {
+            value: '*',
+            period: false
+          }
         }
       },
       {
         name: 'Каждые 3 часа',
         tmp: {
-          minute: '*',
-          hour: '3/*',
-          day: '*',
-          month: '*',
-          weekDay: '*'
+          minute: {
+            value: '*',
+            period: false
+          },
+          hour: {
+            value: '3',
+            period: true
+          },
+          day: {
+            value: '*',
+            period: false
+          },
+          month: {
+            value: '*',
+            period: false
+          },
+          weekDay: {
+            value: '*',
+            period: false
+          }
         }
       },
       {
         name: 'Каждые 4 часа',
         tmp: {
-          minute: '4',
-          hour: '2/*',
-          day: '*',
-          month: '*',
-          weekDay: '*'
+          minute: {
+            value: '*',
+            period: false
+          },
+          hour: {
+            value: '4',
+            period: true
+          },
+          day: {
+            value: '*',
+            period: false
+          },
+          month: {
+            value: '*',
+            period: false
+          },
+          weekDay: {
+            value: '*',
+            period: false
+          }
         }
       },
       {
         name: 'Каждые 6 часов',
         tmp: {
-          minute: '*',
-          hour: '6/*',
-          day: '*',
-          month: '*',
-          weekDay: '*'
+          minute: {
+            value: '*',
+            period: false
+          },
+          hour: {
+            value: '6',
+            period: true
+          },
+          day: {
+            value: '*',
+            period: false
+          },
+          month: {
+            value: '*',
+            period: false
+          },
+          weekDay: {
+            value: '*',
+            period: false
+          }
         }
       },
       {
         name: 'Каждые 8 часов',
         tmp: {
-          minute: '*',
-          hour: '8/*',
-          day: '*',
-          month: '*',
-          weekDay: '*'
+          minute: {
+            value: '*',
+            period: false
+          },
+          hour: {
+            value: '8',
+            period: true
+          },
+          day: {
+            value: '*',
+            period: false
+          },
+          month: {
+            value: '*',
+            period: false
+          },
+          weekDay: {
+            value: '*',
+            period: false
+          }
         }
       },
       {
         name: 'Каждые 12 часов',
         tmp: {
-          minute: '*',
-          hour: '12/*',
-          day: '*',
-          month: '*',
-          weekDay: '*'
+          minute: {
+            value: '*',
+            period: false
+          },
+          hour: {
+            value: '12',
+            period: true
+          },
+          day: {
+            value: '*',
+            period: false
+          },
+          month: {
+            value: '*',
+            period: false
+          },
+          weekDay: {
+            value: '*',
+            period: false
+          }
         }
       }
     ]
@@ -135,51 +315,126 @@ export default [
       {
         name: 'Каждый день',
         tmp: {
-          minute: '*',
-          hour: '*',
-          day: '1/*',
-          month: '*',
-          weekDay: '*'
+          minute: {
+            value: '0',
+            period: false
+          },
+          hour: {
+            value: '0',
+            period: false
+          },
+          day: {
+            value: '*',
+            period: false
+          },
+          month: {
+            value: '*',
+            period: false
+          },
+          weekDay: {
+            value: '*',
+            period: false
+          }
         }
       },
       {
         name: 'Каждый полдень',
         tmp: {
-          minute: '*',
-          hour: '12',
-          day: '1/*',
-          month: '*',
-          weekDay: '*'
+          minute: {
+            value: '0',
+            period: false
+          },
+          hour: {
+            value: '12',
+            period: false
+          },
+          day: {
+            value: '*',
+            period: false
+          },
+          month: {
+            value: '*',
+            period: false
+          },
+          weekDay: {
+            value: '*',
+            period: false
+          }
         }
       },
       {
         name: 'Каждую полночь',
         tmp: {
-          minute: '*',
-          hour: '*',
-          day: '1/*',
-          month: '*',
-          weekDay: '*'
+          minute: {
+            value: '0',
+            period: false
+          },
+          hour: {
+            value: '0',
+            period: false
+          },
+          day: {
+            value: '*',
+            period: false
+          },
+          month: {
+            value: '*',
+            period: false
+          },
+          weekDay: {
+            value: '*',
+            period: false
+          }
         }
       },
       {
         name: 'Каждый понедельник',
         tmp: {
-          minute: '*',
-          hour: '*',
-          day: '*',
-          month: '*',
-          weekDay: '1/*'
+          minute: {
+            value: '0',
+            period: false
+          },
+          hour: {
+            value: '0',
+            period: false
+          },
+          day: {
+            value: '*',
+            period: false
+          },
+          month: {
+            value: '*',
+            period: false
+          },
+          weekDay: {
+            value: '1',
+            period: false
+          }
         }
       },
       {
         name: 'Каждую субботу',
         tmp: {
-          minute: '*',
-          hour: '*',
-          day: '*',
-          month: '*',
-          weekDay: '6/*'
+          minute: {
+            value: '0',
+            period: false
+          },
+          hour: {
+            value: '0',
+            period: false
+          },
+          day: {
+            value: '*',
+            period: false
+          },
+          month: {
+            value: '*',
+            period: false
+          },
+          weekDay: {
+            value: '6',
+            period: false
+          }
         }
       }
     ]

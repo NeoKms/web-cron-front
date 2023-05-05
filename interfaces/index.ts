@@ -54,11 +54,26 @@ export type SshElementType = Required<ResponseSshDto>
 export type CreateSshType = Omit<CreateSshDto, 'privateKey' | 'toEntity'> & { privateKey: File | null }
 export type JobElementType = Omit<ResponseJobDto, 'sshEntity'>;
 export type internalTimeType = {
-  minute: string
-  hour: string,
-  day: string,
-  month: string,
-  weekDay: string
+  minute: {
+    value: string,
+    period: boolean,
+  },
+  hour: {
+    value: string,
+    period: boolean,
+  },
+  day: {
+    value: string,
+    period: boolean,
+  },
+  month: {
+    value: string,
+    period: boolean,
+  },
+  weekDay: {
+    value: string,
+    period: boolean,
+  },
 }
 export type CreateJobType = {
   job: string,

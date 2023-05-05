@@ -20,5 +20,18 @@ export default {
   same: (propRef: Ref, nameInErr: string) => helpers.withMessage(`Должно быть одинаковым с ${nameInErr}`, sameAs(propRef)),
   ip: helpers.withMessage('Должен соответствовать IP', ipAddress),
   miv: (num: number) => helpers.withMessage(`Значение не меньше ${num}`, minValue(num)),
-  mav: (num: number) => helpers.withMessage(`Значение не больше ${num}`, maxValue(num))
+  mav: (num: number) => helpers.withMessage(`Значение не больше ${num}`, maxValue(num)),
+  cronTime: {
+    min: helpers.withMessage('Неверный формат минут', (value: string) => {
+      value = (value?.toString() || '').trim();
+      const isDelimiter = value.match(/\//gi);
+      if (Array.isArray(isDelimiter) && isDelimiter.length > 1) {
+        return false;
+      }
+      if (value.includes('/')) {
+        console.log('val in validator', value);
+      }
+      return true;
+    })
+  }
 };
