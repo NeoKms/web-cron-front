@@ -24,9 +24,10 @@ export default {
   cronTime: {
     min: helpers.withMessage('Неверный формат минут', (value: string) => {
       value = (value?.toString() || '').trim();
-      console.log(value);
-
-      return true;
+      const fnd = value.split(',').reduce((acc: string[], el) => {
+        return acc.concat(el.split('-'));
+      }, [] as string[]).find(num => !/^[1-9][0-9]?$/.test(num));
+      return !(!/^[0-9,-]+$/gi.test(value) || !!fnd || fnd === '');
     })
   }
 };
