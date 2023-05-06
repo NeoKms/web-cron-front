@@ -24,13 +24,8 @@ export default {
   cronTime: {
     min: helpers.withMessage('Неверный формат минут', (value: string) => {
       value = (value?.toString() || '').trim();
-      const isDelimiter = value.match(/\//gi);
-      if (Array.isArray(isDelimiter) && isDelimiter.length > 1) {
-        return false;
-      }
-      if (value.includes('/')) {
-        console.log('val in validator', value);
-      }
+      console.log(value);
+
       return true;
     })
   }

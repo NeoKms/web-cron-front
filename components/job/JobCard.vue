@@ -33,7 +33,16 @@
               :loading="!!loading"
               :prop-validator="v$.time.minute.value"
               placeholder="0-59"
-            />
+            >
+              <template #prepend>
+                <common-button-toggle v-model="formData.time.minute.period" class="w-full scale-105">
+                  <div class="flex items-center justify-center">
+                    <common-my-svg-icon class="h-3 w-3" :path="mdiAsterisk" />
+                    <common-my-svg-icon class="h-4 w-4" :path="mdiSlashForward" />
+                  </div>
+                </common-button-toggle>
+              </template>
+            </common-input-with-validation>
           </div>
           <div class="col-span-1">
             <label class="block text-sm font-medium leading-6 text-gray-900">Hour</label>
@@ -42,7 +51,16 @@
               :loading="!!loading"
               :prop-validator="v$.time.hour.value"
               placeholder="0-23"
-            />
+            >
+              <template #prepend>
+                <common-button-toggle v-model="formData.time.hour.period" class="w-full scale-105">
+                  <div class="flex items-center justify-center">
+                    <common-my-svg-icon class="h-3 w-3" :path="mdiAsterisk" />
+                    <common-my-svg-icon class="h-4 w-4" :path="mdiSlashForward" />
+                  </div>
+                </common-button-toggle>
+              </template>
+            </common-input-with-validation>
           </div>
           <div class="col-span-1">
             <label class="block text-sm font-medium leading-6 text-gray-900">Day of month</label>
@@ -51,7 +69,16 @@
               :loading="!!loading"
               :prop-validator="v$.time.day.value"
               placeholder="1-31"
-            />
+            >
+              <template #prepend>
+                <common-button-toggle v-model="formData.time.day.period" class="w-full scale-105">
+                  <div class="flex items-center justify-center">
+                    <common-my-svg-icon class="h-3 w-3" :path="mdiAsterisk" />
+                    <common-my-svg-icon class="h-4 w-4" :path="mdiSlashForward" />
+                  </div>
+                </common-button-toggle>
+              </template>
+            </common-input-with-validation>
           </div>
           <div class="col-span-1">
             <label class="block text-sm font-medium leading-6 text-gray-900">Month</label>
@@ -60,7 +87,16 @@
               :loading="!!loading"
               :prop-validator="v$.time.month.value"
               placeholder="1-12"
-            />
+            >
+              <template #prepend>
+                <common-button-toggle v-model="formData.time.month.period" class="w-full scale-105">
+                  <div class="flex items-center justify-center">
+                    <common-my-svg-icon class="h-3 w-3" :path="mdiAsterisk" />
+                    <common-my-svg-icon class="h-4 w-4" :path="mdiSlashForward" />
+                  </div>
+                </common-button-toggle>
+              </template>
+            </common-input-with-validation>
           </div>
           <div class="col-span-1">
             <label class="block text-sm font-medium leading-6 text-gray-900">Day of week</label>
@@ -69,7 +105,16 @@
               :loading="!!loading"
               :prop-validator="v$.time.weekDay.value"
               placeholder="0-6"
-            />
+            >
+              <template #prepend>
+                <common-button-toggle v-model="formData.time.weekDay.period" class="w-full scale-105">
+                  <div class="flex items-center justify-center">
+                    <common-my-svg-icon class="h-3 w-3" :path="mdiAsterisk" />
+                    <common-my-svg-icon class="h-4 w-4" :path="mdiSlashForward" />
+                  </div>
+                </common-button-toggle>
+              </template>
+            </common-input-with-validation>
           </div>
         </div>
         <div class="w-full items-center flex justify-end gap-x-2">
@@ -144,6 +189,7 @@
 
 import useVuelidate from '@vuelidate/core';
 import { useRouter } from '#app';
+import { mdiAsterisk, mdiSlashForward } from '@mdi/js';
 import { CreateJobType, internalTimeType } from '~/interfaces';
 import { SimpleObject } from '~/interfaces/apiTypes/helpers/interfaces/common';
 import rul from '~/helpers/rulesModule';

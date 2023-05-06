@@ -1,7 +1,7 @@
 <template>
   <button
     :disabled="disabled || loading"
-    class="h-8 items-center flex justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+    class="leading-3 h-8 items-center flex justify-center rounded-md px-3 py-1.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
     :class="classArray"
   >
     <common-loading-circle v-if="loading" />
