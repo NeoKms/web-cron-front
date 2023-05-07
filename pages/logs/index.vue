@@ -1,7 +1,16 @@
 <template>
   <div class="relative">
     <div class="flex flex-col space-y-5 mt-2">
-      <div v-for="(log,index) in logList" :key="index" class="items-center flex shadow-md p-4 rounded-xl m-0 space-x-2">
+      <div
+        v-for="(log,index) in logList"
+        :key="index"
+        class="items-center flex shadow-md p-4 rounded-xl m-0 space-x-2 ring-2"
+        :class="{
+          'ring-yellow-200': log.status===1,
+          'ring-green-200': log.status===2,
+          'ring-red-200': log.status===3
+        }"
+      >
         <div class="flex flex-col items-center text-xs">
           <span>{{ formatDateJS(log.timestamp_start,'DD.MM.YYYY hh:mm:ss') }}</span>
           <span> - </span>
@@ -14,8 +23,10 @@
         </div>
         <div>{{ log.jobEntity.name }}</div>
         <div class="flex-1" />
-        <div class="cursor-pointer">
-          <common-my-svg-icon v-tooltip.auto="'Удалить лог'" :path="mdiTrashCan" class="text-red-800 hover:text-indigo-500" />
+        <div v-if="log.status!==1" v-tooltip.auto="'Удалить лог'" class="cursor-pointer">
+          <common-button-with-loading color="red">
+            <common-my-svg-icon :path="mdiTrashCan" />
+          </common-button-with-loading>
         </div>
       </div>
     </div>
