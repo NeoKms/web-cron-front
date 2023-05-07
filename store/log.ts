@@ -5,9 +5,12 @@ import {
 import apiClient from '~/helpers/apiClient';
 import PaginateDto from '~/interfaces/apiTypes/helpers/paginate.dto';
 import { ContentDto } from '~/interfaces/apiTypes/log/dto/content.dto';
+import { SimpleObject } from '~/interfaces/apiTypes/helpers/interfaces/common';
+import ResponseLogFullDto from '~/interfaces/apiTypes/log/dto/response-log-full.dto';
 
 export const useLogStore = defineStore('logStore', () => {
   const logList = ref<LogElementType[]>([]);
+  const contentByKey = ref<SimpleObject<ContentDto>>({});
   const logPagination = ref<PaginateDto>({
     all: 0,
     itemsPerPage: 10,
@@ -29,12 +32,17 @@ export const useLogStore = defineStore('logStore', () => {
     });
   };
 
-  const fetchById = (id: number) => {
-    const {} = logList.value.find(e => e.id === id);
-    return apiClient<ContentDto>('/logs/' + id);
+  const fetchContent = ({ ts, jobId, sshId }: {ts:number, jobId:number, sshId:number}) => {
+    return apiClient<ResponseLogFullDto>(`/log/${sshId}/${jobId}/${ts}`, {
+      method: 'GET'
+    }, (data) => {
+      contentByKey.value[`${sshId}_${jobId}_${ts}`] = data.content;
+    });
   };
   return {
     fetchList,
-    logList
+    logList,
+    fetchContent,
+    contentByKey
   };
 });

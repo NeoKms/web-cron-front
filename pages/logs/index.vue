@@ -8,7 +8,9 @@
           <span>{{ formatDateJS(log.timestamp_end,'DD.MM.YYYY hh:mm:ss') }}</span>
         </div>
         <div class="cursor-pointer">
-          <common-my-svg-icon v-tooltip.auto="'Посмотреть лог'" :path="mdiTextBox" class="text-indigo-600 hover:text-indigo-500" />
+          <button-with-loading v-tooltip.auto="'Посмотреть лог'" :loading="loadingByKey.has(getKey(log))" @click="fetchContent(log)">
+            <common-my-svg-icon :path="mdiTextBox" />
+          </button-with-loading>
         </div>
         <div>{{ log.jobEntity.name }}</div>
         <div class="flex-1" />
@@ -17,6 +19,28 @@
         </div>
       </div>
     </div>
+    <common-panel-right v-model="panelModal">
+      <template #title>
+        <div class="flex flex-col">
+          <div>
+            {{ panelModalLog.jobEntity.name }}
+          </div>
+          <div class="text-xs">
+            {{ formatDateJS(panelModalLog.timestamp_start,'DD.MM.YYYY hh:mm:ss') }}
+            -
+            {{ formatDateJS(panelModalLog.timestamp_end,'DD.MM.YYYY hh:mm:ss') }}
+          </div>
+        </div>
+      </template>
+      <div class="flex flex-col text-xs">
+        <pre v-if="panelModalData.text" class="shadow-md p-2 sm:max-h-[300px] max-h-full overflow-auto">
+          {{ panelModalData.text }}
+        </pre>
+        <pre v-if="panelModalData.error" class="text-red-800 shadow-md p-2  sm:max-h-[300px] max-h-full overflow-auto">
+          {{ panelModalData.error }}
+        </pre>
+      </div>
+    </common-panel-right>
     <common-loading-full :loading="!!loading" />
   </div>
 </template>
@@ -28,6 +52,8 @@ import { formatDateJS } from '../../helpers';
 import { useLogStore } from '~/store/log';
 import { LogElementType } from '~/interfaces';
 import { errVueHandler } from '~/helpers/errorResponser';
+import ButtonWithLoading from '~/components/common/ButtonWithLoading.vue';
+import { ContentDto } from '~/interfaces/apiTypes/log/dto/content.dto';
 
 const logStore = useLogStore();
 const logList = computed<LogElementType[]>(() => logStore.logList);
@@ -41,6 +67,29 @@ const apiCall = () => {
     });
 };
 useAsyncData('logList', apiCall);
+const loadingByKey = ref(new Set());
+const getKey = (item: LogElementType|null) => item ? `${item.jobEntity.sshEntityId}_${item.jobEntity.id}_${item.timestamp_start}` : '';
+const panelModal = ref(false);
+const panelModalLog = ref<LogElementType|null>(null);
+const panelModalData = computed<ContentDto>(() => logStore.contentByKey[getKey(panelModalLog.value)] ?? { error: '', text: '' });
+const fetchContent = (item: LogElementType) => {
+  if (loadingByKey.value.has(getKey(item))) { return; }
+  loadingByKey.value.add(getKey(item));
+  return logStore.fetchContent({
+    ts: item.timestamp_start,
+    jobId: item.jobEntity.id,
+    sshId: item.jobEntity.sshEntityId
+  })
+    .then((res) => {
+      if (errVueHandler(res)) {
+        panelModal.value = true;
+        panelModalLog.value = item;
+      }
+    })
+    .finally(() => {
+      loadingByKey.value.delete(getKey(item));
+    });
+};
 </script>
 
 <style scoped>
