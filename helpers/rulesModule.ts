@@ -13,6 +13,7 @@ import { Ref } from 'vue';
 
 const cronTimeChecker = (value: string, regexp: RegExp) => {
   value = (value?.toString() || '').trim();
+  if (value === '*') { return true; }
   const fnd = value.split(',').reduce((acc: string[], el) => {
     return acc.concat(el.split('-'));
   }, [] as string[]).find(num => !regexp.test(num));
@@ -29,7 +30,7 @@ export default {
   miv: (num: number) => helpers.withMessage(`Значение не меньше ${num}`, minValue(num)),
   mav: (num: number) => helpers.withMessage(`Значение не больше ${num}`, maxValue(num)),
   cronTime: {
-    min: helpers.withMessage('Неверный формат минут', (value: string) => cronTimeChecker(value, /^([1-9]|[1-5][0-9])$/gi)),
+    min: helpers.withMessage('Неверный формат минут', (value: string) => cronTimeChecker(value, /^([0-9]|[1-5][0-9])$/gi)),
     hour: helpers.withMessage('Неверный формат часов', (value: string) => cronTimeChecker(value, /^([0-9]|1[0-9]|2[0-3])$/gi)),
     dom: helpers.withMessage('Неверный формат дней', (value: string) => cronTimeChecker(value, /^([1-9]|[1-2][0-9]|3[0-1])$/gi)),
     month: helpers.withMessage('Неверный формат месяца', (value: string) => cronTimeChecker(value, /^([1-9]|1[0-2])$/gi)),

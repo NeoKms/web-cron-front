@@ -6,7 +6,7 @@ import PaginationDto from '~/interfaces/apiTypes/helpers/pagination.dto';
 import ResponseSshDto from '~/interfaces/apiTypes/ssh/dto/response-ssh.dto';
 import CreateSshDto from '~/interfaces/apiTypes/ssh/dto/create-ssh.dto';
 import ResponseJobDto from '~/interfaces/apiTypes/jobs/dto/response-job.dto';
-import CreateJobDto from '~/interfaces/apiTypes/jobs/dto/create-job.dto';
+import ResponseLogDto from '~/interfaces/apiTypes/log/dto/response-log.dto';
 
 export interface ResultWithMessage<T> {
   message: string;
@@ -53,6 +53,7 @@ export type UpdateProfileType = Omit<UpdateUserType, 'rights'>
 export type SshElementType = Required<ResponseSshDto>
 export type CreateSshType = Omit<CreateSshDto, 'privateKey' | 'toEntity'> & { privateKey: File | null }
 export type JobElementType = Omit<ResponseJobDto, 'sshEntity'>;
+export type LogElementType = ResponseLogDto;
 export type internalTimeType = {
   minute: {
     value: string,
@@ -77,6 +78,7 @@ export type internalTimeType = {
 }
 export type CreateJobType = {
   job: string,
+  name: string,
   sshEntityId: number,
   time: internalTimeType
 };
@@ -85,4 +87,8 @@ export interface DataTableHeaderElement {
   text: string;
   value: string;
   sort?: boolean;
+}
+
+export interface objectWithArrays {
+  [key: string]: Array<string>;
 }

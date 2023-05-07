@@ -7,6 +7,20 @@
         </h2>
       </div>
       <div class="border-b border-gray-900/10 pb-5">
+        <div class="border-b border-gray-900/10 pb-5">
+          <div class="mt-5 grid grid-cols-1 gap-x-6 sm:grid-cols-9 items-center">
+            <div class="col-span-full">
+              <label class="block text-sm font-medium leading-6 text-gray-900">Название</label>
+              <div class="mt-2">
+                <common-input-with-validation
+                  v-model="formData.name"
+                  :loading="!!loading"
+                  :prop-validator="v$.name"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="mt-5 grid grid-cols-1 gap-x-6 sm:grid-cols-9 items-center">
           <div class="col-span-full">
             <label class="block text-sm font-medium leading-6 text-gray-900">Задание</label>
@@ -134,6 +148,7 @@
               <common-input-select
                 v-model="formData.sshEntityId"
                 :items="sshListForSelect"
+                :prop-validator="v$.sshEntityId"
                 item-name="fullName"
                 item-value="id"
               />
@@ -209,6 +224,7 @@ const sshListForSelect = computed(() => sshStore.sshList.map((el: any) => ({
 })));
 const formData = ref<CreateJobType>({
   job: '',
+  name: '',
   sshEntityId: -1,
   time: {
     minute: {
@@ -239,6 +255,11 @@ if (sshListForSelect.value.length) {
 const savedFormData = JSON.stringify(formData.value);
 const changed = computed<boolean>(() => savedFormData !== JSON.stringify(formData.value));
 const rules: SimpleObject = {
+  name: {
+    required: rul.req,
+    minLen: rul.mil(2),
+    maxLen: rul.mal(100)
+  },
   job: {
     required: rul.req,
     minLen: rul.mil(2),
