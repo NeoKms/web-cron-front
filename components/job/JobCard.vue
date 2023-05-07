@@ -258,25 +258,25 @@ const rules: SimpleObject = {
     hour: {
       value: {
         required: rul.req,
-        min: rul.cronTime.min
+        min: rul.cronTime.hour
       }
     },
     day: {
       value: {
         required: rul.req,
-        min: rul.cronTime.min
+        min: rul.cronTime.dom
       }
     },
     month: {
       value: {
         required: rul.req,
-        min: rul.cronTime.min
+        min: rul.cronTime.month
       }
     },
     weekDay: {
       value: {
         required: rul.req,
-        min: rul.cronTime.min
+        min: rul.cronTime.dow
       }
     }
   }
