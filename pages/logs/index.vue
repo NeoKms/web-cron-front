@@ -30,7 +30,7 @@
         </div>
       </div>
     </div>
-    <common-panel-right v-model="panelModal">
+    <common-panel-right v-model="panelModal" class="max-w-3xl">
       <template #title>
         <div class="flex flex-col">
           <div>

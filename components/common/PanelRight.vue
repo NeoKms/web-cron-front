@@ -24,7 +24,7 @@
               leave-from="translate-x-0"
               leave-to="translate-x-full"
             >
-              <DialogPanel class="pointer-events-auto relative w-screen max-w-md">
+              <DialogPanel class="pointer-events-auto relative w-screen max-w-md" :class="$attrs.class">
                 <TransitionChild
                   as="template"
                   enter="ease-in-out duration-500"
